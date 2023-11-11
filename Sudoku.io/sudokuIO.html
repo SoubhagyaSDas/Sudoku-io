@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Web Application</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .earth-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .earth-image {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .btn {
+            width: 6.5em;
+            height: 2.3em;
+            margin: 0.5em;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 0.625em;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            color: red;
+        }
+
+        .btn:after {
+            content: "";
+            background: white;
+            position: absolute;
+            z-index: -1;
+            left: -20%;
+            right: -20%;
+            top: 0;
+            bottom: 0;
+            transform: skewX(-45deg) scale(0, 1);
+            transition: all 0.5s;
+        }
+
+        .btn:hover:after {
+            transform: skewX(-45deg) scale(1, 1);
+            transition: all 0.5s;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .svg-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .svg-text {
+            font-size: 40px;
+            fill: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="earth-container">
+        <img src="earth-cartoon.png" alt="Cartoon Earth" class="earth-image">
+        <div class="svg-container">
+            <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path id="circlePath" fill="none" stroke="transparent" d="M150,150 m-120,0 a120,120 0 1,1 240,0 a120,120 0 1,1 -240,0" />
+                <text>
+                    <textPath xlink:href="#circlePath" class="svg-text" startOffset="50%">
+                        Sudoku.io
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="btn" id="play">Play</button>
+        <button class="btn" id="create">Create</button>
+        <button class="btn" id="settings">Settings</button>
+    </div>
+</body>
+</html>
