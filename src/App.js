@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 
 function App() {
+  // This function could be expanded to handle game logic
+  const startGame = () => {
+    console.log('Game started!');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Sudoku Game for 60th St</h1>
+      <div className="game-board">
+        {/* Placeholder for the Sudoku board */}
+        <p>Happy Diwali</p>
+      </div>
+      <div className="game-controls">
+        <button onClick={startGame}>Start Game</button>
+        {/* Add more buttons as needed */}
+      </div>
     </div>
   );
 }
