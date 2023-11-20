@@ -6,7 +6,7 @@ class Cell:
         self.row = 0
         self.col = 0
         self.notes = [] #list of notes for a single cell
-        self.given = False #boolean saying if value is given by computer (initally or by hint) (will be used to determine if cell can be given by a hint)
+        self.given = False #boolean saying if value is given by computer (initally or by hint) (will be used to determine if cell can be given by a hint) (given=True is a sign of correctness)
 
     def GetEntry(self):
         return self.cellEntry
@@ -34,6 +34,9 @@ class Cell:
     
     def Clear(self):
         self.cellEntry = 0
+
+    def SetGiven(self,given):
+        self.given = given
 
 #completed by Andrew
 class Puzzle:
@@ -85,7 +88,7 @@ class HxEntry:
         self.isCorrect = status
 
     def SetCorrectness(self,puzzle): #using algo check correctness of puzzle
-        self.isCorrect = Algorithms.CheckPuzzle(puzzle)
+        self.isCorrect = Algorithms.CheckCorrectnessOfPuzzle(puzzle)
     #GetCell() and IsCorrect() ??? I don't get what these are supposed to do
 
 #completed by Andrew
@@ -101,6 +104,15 @@ class History:
     
 #completed by Nashrah
 class Algorithms:
+    def CheckCorrectnessOfPuzzle(self,puzzle:Puzzle):
+        for row in range(9):
+            for col in range(9):
+                if puzzle.grid[row][col].cellEntry != 0 and puzzle.grid[row][col].cellEntry != puzzle.grid[row][col].solution and not puzzle.grid[row][col].given:
+                    return False
+                elif puzzle.grid[row][col].cellEntry != 0 and puzzle.grid[row][col].cellEntry == puzzle.grid[row][col].solution and not puzzle.grid[row][col].given:
+                    puzzle.grid[row][col].SetGiven(True)
+        return True
+
     def IsValidMove(self,puzzle: Puzzle, row: int, col: int, num: int) -> bool:
         # Check if placing the number at the given position is a valid move
         for i in range(9):
@@ -130,14 +142,14 @@ class Algorithms:
                     return False  # No valid number for this position
         return True  # Puzzle solved successfully
 
-    def CheckPuzzle(self,puzzle: Puzzle) -> bool:
+    '''def CheckPuzzle(self,puzzle: Puzzle) -> bool:
         # Check if the current state of the puzzle is valid
         for row in range(9):
             for col in range(9):
                 num = puzzle.grid[row][col].cellEntry
                 if num != 0 and not self.IsValidMove(puzzle, row, col, num):
                     return False
-        return True
+        return True'''
 
     def FindAllErrors(self,puzzle: Puzzle) -> List[Cell]:
         # Find all cells with conflicting values in the puzzle
@@ -145,7 +157,7 @@ class Algorithms:
         for row in range(9):
             for col in range(9):
                 num = puzzle.grid[row][col].cellEntry
-                if num != 0 and not self.IsValidMove(puzzle, row, col, num):
+                if num != 0 and num != puzzle.grid[row][col].solution:
                     errors.append(puzzle.grid[row][col])
         return errors
 
@@ -186,21 +198,27 @@ class GameEngine:
     def SetCurrentValue(self,val):
         self.currentValue = val
 
-    def GetRandomHint(self): #what should be returned from hint functions a Cell or jsut row,col,solution???
+    def GetRandomHint(self): #what should be returned from hint functions a Cell or just row,col,solution???
         errors = []
         errors = Algorithms.FindAllErrors(self.puzzle)
         if errors: #see if there are errors to fix with a hint first
             randErrorIndex = random.randint(0,len(errors))
             errorToFix = errors[randErrorIndex] #then return the a random cell with an error
+            self.puzzle.grid[errorToFix.row][errorToFix.col].cellEntry = errorToFix.solution
+            self.puzzle.grid[errorToFix.row][errorToFix.col].SetGiven(True)
             return errorToFix.row, errorToFix.col, errorToFix.solution
         else: #no user-entered errors
             empty = Algorithms.FindAllEmpty(self.puzzle)
             randEmptyIndex = random.randInt(0,len(empty))
             emptyToFill = empty[randEmptyIndex]
+            self.puzzle.grid[emptyToFill.row][emptyToFill.col].cellEntry = emptyToFill.solution
+            self.puzzle.grid[emptyToFill.row][emptyToFill.col].SetGiven(True)
             return emptyToFill.row, emptyToFill.col, emptyToFill.solution
         
     def GetSpecificHint(self,row,col):
+        self.puzzle.grid[row][col].cellEntry = self.puzzle.grid[row][col].solution
+        self.puzzle.grid[row][col].SetGiven(True)
         return row,col,self.puzzle.grid[row][col].solution
     
-    def CallCheckPuzzle(self,puzzle):
-        Algorithms.CheckPuzzle(puzzle)
+    def CallCheckCorrectnessOfPuzzle(self,puzzle):
+        Algorithms.CheckCorrectnessOfPuzzle(puzzle)
