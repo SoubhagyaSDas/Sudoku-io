@@ -85,7 +85,7 @@ class HxEntry:
         self.isCorrect = status
 
     def SetCorrectness(self,puzzle): #using algo check correctness of puzzle
-        self.isCorrect = CheckPuzzle(puzzle)
+        self.isCorrect = Algorithms.CheckPuzzle(puzzle)
     #GetCell() and IsCorrect() ??? I don't get what these are supposed to do
 
 #completed by Andrew
@@ -157,3 +157,50 @@ class Algorithms:
                 if puzzle.grid[row][col].cellEntry == 0:
                     empty_cells.append(puzzle.grid[row][col])
         return empty_cells
+    
+import random
+
+#completed by Andrew
+class GameEngine:
+    def __init__(self):
+        self.puzzle = Puzzle
+        self.currentValue = 0
+        self.history = History
+
+    def Undo(self):
+        self.history.PopLastMove()
+
+    def UndoUntilCorrect(self):
+        numToPop = 0
+        for move in self.history:
+            if move.isCorrect == False:
+                numToPop+=1
+            else:
+                break
+        for i in range(numToPop):
+            self.history.PopLastMove()
+
+    def GetCurrentValue(self):
+        return self.currentValue
+
+    def SetCurrentValue(self,val):
+        self.currentValue = val
+
+    def GetRandomHint(self): #what should be returned from hint functions a Cell or jsut row,col,solution???
+        errors = []
+        errors = Algorithms.FindAllErrors(self.puzzle)
+        if errors: #see if there are errors to fix with a hint first
+            randErrorIndex = random.randint(0,len(errors))
+            errorToFix = errors[randErrorIndex] #then return the a random cell with an error
+            return errorToFix.row, errorToFix.col, errorToFix.solution
+        else: #no user-entered errors
+            empty = Algorithms.FindAllEmpty(self.puzzle)
+            randEmptyIndex = random.randInt(0,len(empty))
+            emptyToFill = empty[randEmptyIndex]
+            return emptyToFill.row, emptyToFill.col, emptyToFill.solution
+        
+    def GetSpecificHint(self,row,col):
+        return row,col,self.puzzle.grid[row][col].solution
+    
+    def CallCheckPuzzle(self,puzzle):
+        Algorithms.CheckPuzzle(puzzle)
