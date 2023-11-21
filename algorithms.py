@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import sqlite3
 from typing import List
+from representations import Cell, Puzzle, Algorithms, History  # Import relevant classes from Andrew's code
 
 app = Flask(__name__)
 
@@ -12,6 +13,8 @@ class Cell:
 class Puzzle:
     def __init__(self, grid: List[List[int]]):
         self.grid = [[Cell(value) for value in row] for row in grid]
+        self.difficulty = 0  # Initialize difficulty attribute
+        self.size = 9  # Initialize size attribute (assuming a default size of 9x9)
 
 # Connect to the SQLite database (create a new one if it doesn't exist)
 conn = sqlite3.connect('sudoku.db', check_same_thread=False)
@@ -27,21 +30,9 @@ cursor.execute('''
 conn.commit()
 
 def is_valid_move(puzzle: Puzzle, row: int, col: int, num: int) -> bool:
-    # Check if placing the number at the given position is a valid move
-    for i in range(9):
-        if puzzle.grid[row][i].value == num or puzzle.grid[i][col].value == num:
-            return False
-
-    start_row, start_col = 3 * (row // 3), 3 * (col // 3)
-    for i in range(3):
-        for j in range(3):
-            if puzzle.grid[start_row + i][start_col + j].value == num:
-                return False
-
-    return True
+    return Algorithms().IsValidMove(puzzle, row, col, num)
 
 def solve_puzzle(puzzle: Puzzle) -> bool:
-    # Recursive backtracking algorithm to solve the Sudoku puzzle
     for row in range(9):
         for col in range(9):
             if puzzle.grid[row][col].value == 0:
@@ -50,12 +41,11 @@ def solve_puzzle(puzzle: Puzzle) -> bool:
                         puzzle.grid[row][col].value = num
                         if solve_puzzle(puzzle):
                             return True
-                        puzzle.grid[row][col].value = 0  # Backtrack if the solution is not valid
-                return False  # No valid number for this position
-    return True  # Puzzle solved successfully
+                        puzzle.grid[row][col].value = 0
+                return False
+    return True
 
 def check_puzzle(puzzle: Puzzle) -> bool:
-    # Check if the current state of the puzzle is valid
     for row in range(9):
         for col in range(9):
             num = puzzle.grid[row][col].value
@@ -64,7 +54,6 @@ def check_puzzle(puzzle: Puzzle) -> bool:
     return True
 
 def find_all_errors(puzzle: Puzzle) -> List[Cell]:
-    # Find all cells with conflicting values in the puzzle
     errors = []
     for row in range(9):
         for col in range(9):
@@ -74,7 +63,6 @@ def find_all_errors(puzzle: Puzzle) -> List[Cell]:
     return errors
 
 def find_all_empty(puzzle: Puzzle) -> List[Cell]:
-    # Find all empty cells in the puzzle
     empty_cells = []
     for row in range(9):
         for col in range(9):
@@ -83,18 +71,12 @@ def find_all_empty(puzzle: Puzzle) -> List[Cell]:
     return empty_cells
 
 def save_puzzle_to_database(puzzle: Puzzle) -> int:
-    # Convert the puzzle grid to a string for database storage
     grid_str = '\n'.join([' '.join(map(str, row)) for row in puzzle.grid])
-
-    # Insert the puzzle into the database
     cursor.execute('INSERT INTO Puzzle (grid) VALUES (?)', (grid_str,))
     conn.commit()
-    
-    # Return the ID of the newly inserted puzzle
     return cursor.lastrowid
 
 def load_puzzle_from_database(puzzle_id: int) -> Puzzle:
-    # Retrieve the puzzle from the database by ID
     cursor.execute('SELECT grid FROM Puzzle WHERE id = ?', (puzzle_id,))
     result = cursor.fetchone()
     if result:
@@ -106,7 +88,6 @@ def load_puzzle_from_database(puzzle_id: int) -> Puzzle:
 
 @app.route('/api/sudoku/generate', methods=['POST'])
 def generate_sudoku():
-    # Placeholder for puzzle generation logic
     example_puzzle = Puzzle([
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
         [6, 0, 0, 1, 9, 5, 0, 0, 0],
