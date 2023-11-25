@@ -1,20 +1,9 @@
 from flask import Flask, request, jsonify
 import sqlite3
 from typing import List
-from representations import Cell, Puzzle, Algorithms, History  # Import relevant classes from Andrew's code
+from representations import Cell, Puzzle, Algorithms, History
 
 app = Flask(__name__)
-
-# Define the Puzzle and Cell classes
-class Cell:
-    def __init__(self, value: int):
-        self.value = value
-
-class Puzzle:
-    def __init__(self, grid: List[List[int]]):
-        self.grid = [[Cell(value) for value in row] for row in grid]
-        self.difficulty = 0  # Initialize difficulty attribute
-        self.size = 9  # Initialize size attribute (assuming a default size of 9x9)
 
 # Connect to the SQLite database (create a new one if it doesn't exist)
 conn = sqlite3.connect('sudoku.db', check_same_thread=False)
@@ -46,29 +35,27 @@ def solve_puzzle(puzzle: Puzzle) -> bool:
     return True
 
 def check_puzzle(puzzle: Puzzle) -> bool:
-    for row in range(9):
-        for col in range(9):
-            num = puzzle.grid[row][col].value
-            if num != 0 and not is_valid_move(puzzle, row, col, num):
-                return False
-    return True
+    return all(
+        puzzle.grid[row][col].value == 0 or is_valid_move(puzzle, row, col, puzzle.grid[row][col].value)
+        for row in range(9)
+        for col in range(9)
+    )
 
 def find_all_errors(puzzle: Puzzle) -> List[Cell]:
-    errors = []
-    for row in range(9):
-        for col in range(9):
-            num = puzzle.grid[row][col].value
-            if num != 0 and not is_valid_move(puzzle, row, col, num):
-                errors.append(puzzle.grid[row][col])
-    return errors
+    return [
+        puzzle.grid[row][col]
+        for row in range(9)
+        for col in range(9)
+        if puzzle.grid[row][col].value != 0 and not is_valid_move(puzzle, row, col, puzzle.grid[row][col].value)
+    ]
 
 def find_all_empty(puzzle: Puzzle) -> List[Cell]:
-    empty_cells = []
-    for row in range(9):
-        for col in range(9):
-            if puzzle.grid[row][col].value == 0:
-                empty_cells.append(puzzle.grid[row][col])
-    return empty_cells
+    return [
+        puzzle.grid[row][col]
+        for row in range(9)
+        for col in range(9)
+        if puzzle.grid[row][col].value == 0
+    ]
 
 def save_puzzle_to_database(puzzle: Puzzle) -> int:
     grid_str = '\n'.join([' '.join(map(str, row)) for row in puzzle.grid])
@@ -79,12 +66,7 @@ def save_puzzle_to_database(puzzle: Puzzle) -> int:
 def load_puzzle_from_database(puzzle_id: int) -> Puzzle:
     cursor.execute('SELECT grid FROM Puzzle WHERE id = ?', (puzzle_id,))
     result = cursor.fetchone()
-    if result:
-        grid_str = result[0]
-        grid = [[int(cell) for cell in row.split()] for row in grid_str.split('\n')]
-        return Puzzle(grid)
-    else:
-        return Puzzle([[0]])
+    return Puzzle([[int(cell) for cell in row.split()] for row in result[0].split('\n')]) if result else Puzzle([[0]])
 
 @app.route('/api/sudoku/generate', methods=['POST'])
 def generate_sudoku():
@@ -129,3 +111,4 @@ def get_empty_cells(puzzle_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
