@@ -15,6 +15,7 @@ How to use the application, including any available commands or interfaces.
 - Development of a basic React structure for the game.
 - Integration of React with custom HTML/CSS.
 - Outline of future steps and features.
+- Backend: Representation & algorithms 
 
 Structure of the game:
 sudoku-game/
