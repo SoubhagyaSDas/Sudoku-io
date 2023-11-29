@@ -1,42 +1,32 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.cell {
+  width: 40px; /* Width of the cell */
+  height: 40px; /* Height of the cell */
+  border: 1px solid #cccccc; /* Border color for the cell */
+  text-align: center; /* Center text */
+  font-size: 20px; /* Font size */
+  line-height: 40px; /* Line height to vertically center text in the cell */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.cell.editable {
+  background-color: #ffffff; /* White background for editable cells */
+  cursor: pointer; /* Pointer cursor for editable cells */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cell.highlighted {
+  background-color: #d0eaff; /* Light blue background for highlighted cells */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.cell.selected {
+  background-color: #a0c4ff; /* Blue background for the selected cell */
+  border-color: #0033cc; /* Darker border color for the selected cell */
 }
 
-.card {
-  padding: 2em;
+/* Additional styles for 3x3 grid lines */
+.row:nth-child(3n) .cell,
+.row .cell:nth-child(3n) {
+  border-right: 3px solid #000000; /* Right border for 3x3 grid */
 }
 
-.read-the-docs {
-  color: #888;
+.row:nth-child(3n) .cell {
+  border-bottom: 3px solid #000000; /* Bottom border for 3x3 grid */
 }
