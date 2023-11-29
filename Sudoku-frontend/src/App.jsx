@@ -1,37 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Board from './components/Board/Board';
 import DifficultySelector from './components/Controls/DifficultySelector';
 import NumberPad from './components/Controls/NumberPad';
 import Timer from './components/Controls/Timer';
 import ToggleModeButton from './components/Controls/ToggleModeButton';
-import './App.css'; // Ensure this includes sidebar styling
+import './App.css';
 
 function App() {
-  // Define the state and functions to handle the game logic here
+  const [darkMode, setDarkMode] = useState(true); // State to handle theme
 
+  // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
-    // Implement difficulty change logic
+    // Your logic here
   };
 
+  // Handle number selection
   const handleNumberSelect = (number) => {
-    // Implement number selection logic
+    // Your logic here
   };
 
+  // Handle theme toggle
   const handleToggleMode = () => {
-    // Implement mode toggle logic
+    setDarkMode(!darkMode); // Toggle the theme state
   };
+
+  // Conditional class assignment based on the theme state
+  const themeClass = darkMode ? 'dark-mode' : 'light-mode';
 
   return (
-    <div className="app">
-      <div className="game-board">
-        <Board />
-      </div>
-      <div className="sidebar">
+    <div className={`app ${themeClass}`}>
+      <Board />
+      <div className="control-panel">
         <DifficultySelector onDifficultyChange={handleDifficultyChange} />
         <NumberPad onNumberSelect={handleNumberSelect} />
         <Timer />
         <ToggleModeButton onToggle={handleToggleMode} />
-        {/* Add additional buttons or controls as needed */}
+        {/* Insert additional controls if necessary */}
       </div>
     </div>
   );

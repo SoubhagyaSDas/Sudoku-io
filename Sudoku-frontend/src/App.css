@@ -65,3 +65,43 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
+/* App.css */
+
+.app {
+  display: flex;
+  min-height: 100vh;
+  transition: background-color 0.3s; /* Smooth transition for theme change */
+}
+
+/* Common styles for control panel */
+.control-panel {
+  width: 20%; /* Adjust the width as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px; /* Space between control elements */
+}
+
+/* Styles specific to dark mode */
+.dark-mode {
+  background-color: #121212; /* Dark mode background color */
+  color: white; /* Dark mode text color */
+}
+
+.dark-mode .control-panel {
+  background-color: #1e1e1e; /* Dark mode control panel background */
+}
+
+/* Styles specific to light mode */
+.light-mode {
+  background-color: #ffffff; /* Light mode background color */
+  color: black; /* Light mode text color */
+}
+
+.light-mode .control-panel {
+  background-color: #f0f0f0; /* Light mode control panel background */
+}
+
+/* Continue with specific styles for each control component */
