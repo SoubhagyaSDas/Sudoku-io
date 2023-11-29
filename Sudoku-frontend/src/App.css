@@ -1,40 +1,32 @@
 .cell {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #cccccc;
-  text-align: center;
-  font-size: 20px;
-  line-height: 40px;
+  width: 40px; /* Width of the cell */
+  height: 40px; /* Height of the cell */
+  border: 1px solid #cccccc; /* Border color for the cell */
+  text-align: center; /* Center text */
+  font-size: 20px; /* Font size */
+  line-height: 40px; /* Line height to vertically center text in the cell */
 }
 
 .cell.editable {
-  background-color: #ffffff;
-  cursor: pointer;
+  background-color: #ffffff; /* White background for editable cells */
+  cursor: pointer; /* Pointer cursor for editable cells */
 }
 
 .cell.highlighted {
-  background-color: #d0eaff;
+  background-color: #d0eaff; /* Light blue background for highlighted cells */
 }
 
 .cell.selected {
-  background-color: #a0c4ff;
-  border-color: #0033cc;
+  background-color: #a0c4ff; /* Blue background for the selected cell */
+  border-color: #0033cc; /* Darker border color for the selected cell */
+}
+
+/* Additional styles for 3x3 grid lines */
+.row:nth-child(3n) .cell,
+.row .cell:nth-child(3n) {
+  border-right: 3px solid #000000; /* Right border for 3x3 grid */
 }
 
 .row:nth-child(3n) .cell {
-  border-bottom: 3px solid #000000;
-}
-
-.row .cell:nth-child(3n) {
-  border-right: 3px solid #000000;
-}
-
-/* Add a top border to the first row of cells in the board */
-.row:first-child .cell {
-  border-top: 3px solid #000000;
-}
-
-/* Add a left border to the first cell of each row in the board */
-.cell:first-child {
-  border-left: 3px solid #000000;
+  border-bottom: 3px solid #000000; /* Bottom border for 3x3 grid */
 }
