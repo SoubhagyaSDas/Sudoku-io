@@ -11,7 +11,7 @@
   /* Difficulty Selector Styles */
   .difficulty-selector {
     background-color: #3e92d7;
-    border: 1px solid #223f97;
+    border: 1px solid #060e24;
     border-radius: 5px;
     padding: 5px 10px;
     font-size: 16px;
@@ -29,7 +29,7 @@
   
   .number-pad button {
     background-color: #3e92d7;
-    border: 1px solid #223f97;
+    border: 1px solid #060e24;
     border-radius: 5px;
     width: 40px;
     height: 40px;
@@ -47,7 +47,7 @@
   /* Timer Styles */
   .timer {
     background-color: #3e92d7;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #060e24;
     border-radius: 5px;
     padding: 5px 10px;
     font-size: 16px;
