@@ -1,0 +1,108 @@
+/* controls.css */
+
+/* Base styles for the controls container */
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  
+  /* Difficulty Selector Styles */
+  .difficulty-selector {
+    background-color: #f0f0f0;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Number Pad Styles */
+  .number-pad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin: 15px 0;
+  }
+  
+  .number-pad button {
+    background-color: #e0e0e0;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .number-pad button:active {
+    background-color: #c0c0c0;
+  }
+  
+  /* Timer Styles */
+  .timer {
+    background-color: #f0f0f0;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    min-width: 80px;
+    text-align: center;
+  }
+  
+  /* Toggle Mode Button Styles */
+  .toggle-mode-button {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .toggle-mode-button input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-mode-button .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .toggle-mode-button .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  .toggle-mode-button input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  .toggle-mode-button input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  .toggle-mode-button input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
