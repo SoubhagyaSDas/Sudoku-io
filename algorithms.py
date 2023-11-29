@@ -1,3 +1,7 @@
+# Flask web application for Sudoku puzzles with API endpoints for puzzle generation, solving, validation, error checking,
+# and retrieving empty cells. The application interacts with an SQLite database and utilizes classes from the "representations"
+# module for puzzle logic, including solving algorithms and puzzle representation.
+
 from flask import Flask, request, jsonify
 import sqlite3
 from typing import List
