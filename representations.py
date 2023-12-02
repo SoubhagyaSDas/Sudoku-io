@@ -1,4 +1,5 @@
 #completed by Andrew
+import math
 class Cell:
     def __init__(self):
         self.cellEntry = 0 #value of cell
@@ -42,15 +43,15 @@ class Cell:
 #completed by Andrew
 class Puzzle:
     def __init__(self):
-        self.difficulty = 0 #integer of difficulty 1=easy, 2=medium, 3=hard
-        self.size = 0 #4 = 4x4, 9 = 9x9
+        self.difficulty = "Easy" #integer of difficulty 1=easy, 2=medium, 3=hard
+        self.size = 9 #4 = 4x4, 9 = 9x9
         #self.grid = Cell[self.size][self.size]
         self.grid = [[]]
 
     def GetBoardSize(self):
         return self.size
     
-    def SetBoardSize(self,size:int):
+    def SetBoardSize(self,size:str):
         self.size = size
 
     def GetValue(self,row,col):
@@ -126,13 +127,32 @@ class History:
     def ClearFromHistory(self, cell:Cell): #used when a hint is given or when check puzzle is called and correct moves are made hardwired (given) meaning any past move involving that cell should be removed from history (no need for those moves to be undone)
         self.history = list(filter(lambda histItem: histItem.newCell.row != cell.row or histItem.newCell.col != cell.col,self.history))
 
+    def RecreateHistory(self,puzzle:Puzzle,algo):
+        #print statements commented out below were to check outputs at various stages
+        reverseHistory = []
+        #print(self.history)
+        for move in self.history:
+            #print(move)
+            reverseHistory.append(self.PopLastMove())
+        
+        #print(reverseHistory)
+
+        fixedHistory = []
+        for entry_to_recheck in reverseHistory:
+            #print(entry_to_recheck.oldCell,entry_to_recheck.newCell)
+            entry_to_recheck.CreateEntry(entry_to_recheck.oldCell,entry_to_recheck.newCell,entry_to_recheck.IsCorrect(puzzle,algo))
+            #print(entry_to_recheck)
+            fixedHistory.append(entry_to_recheck)
+
+        self.history = fixedHistory
+
 #completed by Nashrah, edited by Andrew
 class Algorithms:
     def CheckCorrectnessOfPuzzle(self,puzzle:Puzzle,history:History):
         wrongCells = []
         rightCells = []
-        for row in range(9):
-            for col in range(9):
+        for row in range(puzzle.GetBoardSize()):
+            for col in range(puzzle.GetBoardSize()):
                 #the move is wrong
                 if puzzle.grid[row][col].GetEntry() != 0 and puzzle.grid[row][col].GetEntry() != puzzle.grid[row][col].solution and not puzzle.grid[row][col].given:
                     #wrongCells.append(puzzle.grid[row][col])
@@ -147,8 +167,8 @@ class Algorithms:
     
     def CheckCorrectnessOfPuzzleForHistory(self,puzzle:Puzzle):
         gameWon = True
-        for row in range(9):
-            for col in range(9):
+        for row in range(puzzle.GetBoardSize()):
+            for col in range(puzzle.GetBoardSize()):
                 if puzzle.grid[row][col].GetEntry() == 0:
                     gameWon = False
                 if puzzle.grid[row][col].GetEntry() != 0 and puzzle.grid[row][col].GetEntry() != puzzle.grid[row][col].solution and not puzzle.grid[row][col].given:
@@ -159,13 +179,13 @@ class Algorithms:
 
     def IsValidMove(self,puzzle: Puzzle, row: int, col: int, num: int) -> bool:
         # Check if placing the number at the given position is a valid move
-        for i in range(9):
+        for i in range(puzzle.GetBoardSize()):
             if puzzle.grid[row][i].GetEntry() == num or puzzle.grid[i][col].GetEntry() == num:
                 return False
 
         start_row, start_col = 3 * (row // 3), 3 * (col // 3)
-        for i in range(3):
-            for j in range(3):
+        for i in range(int(math.sqrt(puzzle.GetBoardSize()))):
+            for j in range(int(math.sqrt(puzzle.GetBoardSize()))):
                 if puzzle.grid[start_row + i][start_col + j].GetEntry() == num:
                     return False
 
@@ -173,10 +193,10 @@ class Algorithms:
     
     def SolvePuzzle(self,puzzle: Puzzle) -> bool:
         # Recursive backtracking algorithm to solve the Sudoku puzzle
-        for row in range(9):
-            for col in range(9):
+        for row in range(puzzle.GetBoardSize()):
+            for col in range(puzzle.GetBoardSize()):
                 if puzzle.grid[row][col].GetEntry() == 0:
-                    for num in range(1, 10):
+                    for num in range(1, puzzle.GetBoardSize()+1):
                         if self.IsValidMove(puzzle, row, col, num):
                             puzzle.grid[row][col].SetEntry(num)
                             if self.SolvePuzzle(puzzle):
@@ -200,8 +220,8 @@ class Algorithms:
     def FindAllErrors(self,puzzle: Puzzle) -> list[Cell]:
         # Find all cells with conflicting values in the puzzle
         errors = []
-        for row in range(9):
-            for col in range(9):
+        for row in range(puzzle.GetBoardSize()):
+            for col in range(puzzle.GetBoardSize()):
                 num = puzzle.grid[row][col].GetEntry()
                 if num != 0 and num != puzzle.grid[row][col].solution:
                     errors.append(puzzle.grid[row][col])
@@ -210,8 +230,8 @@ class Algorithms:
     def FindAllEmpty(self,puzzle: Puzzle) -> list[Cell]:
         # Find all empty cells in the puzzle
         empty_cells = []
-        for row in range(9):
-            for col in range(9):
+        for row in range(puzzle.GetBoardSize()):
+            for col in range(puzzle.GetBoardSize()):
                 if puzzle.grid[row][col].GetEntry() == 0:
                     empty_cells.append(puzzle.grid[row][col])
         return empty_cells
@@ -221,10 +241,10 @@ import random
 #completed by Andrew
 class GameEngine:
     def __init__(self):
-        self.puzzle = Puzzle
+        self.puzzle = Puzzle()
         self.currentValue = 0
-        self.history = History
-        self.algo = Algorithms
+        self.history = History()
+        self.algo = Algorithms()
 
     def Undo(self):
         if self.history: #moves exist in history stack
@@ -263,6 +283,7 @@ class GameEngine:
             self.puzzle.grid[errorToFix.row][errorToFix.col].SetEntry(errorToFix.solution)
             self.puzzle.grid[errorToFix.row][errorToFix.col].SetGiven()
             self.history.ClearFromHistory(errorToFix)
+            self.history.RecreateHistory(self.puzzle,self.algo)
             return errorToFix.row, errorToFix.col, errorToFix.solution
         elif not errors and empty: #no user-entered errors but empty cells exist
             randEmptyIndex = random.randint(0,len(empty))
@@ -278,6 +299,7 @@ class GameEngine:
             self.puzzle.grid[row][col].SetEntry(self.puzzle.grid[row][col].solution)
             self.puzzle.grid[row][col].SetGiven()
             self.history.ClearFromHistory(self.puzzle.grid[row][col])
+            self.history.RecreateHistory(self.puzzle,self.algo)
             return row,col,self.puzzle.grid[row][col].solution
         else: #user clicked on given/hardwired cell for specific hint, nothing should happen/be returned
             return 

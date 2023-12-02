@@ -128,11 +128,11 @@ def print_sol_board(board):
 
 #testing of setting and getting puzzle properties (size and difficulty)
 puzzleObj.SetBoardSize(9)
-puzzleObj.SetDifficulty(1)
+puzzleObj.SetDifficulty("Hard")
 print()
-print("Puzzle is ",puzzleObj.GetBoardSize(),"x",puzzleObj.GetBoardSize())
+print("Puzzle is a ",puzzleObj.GetBoardSize(),"x",puzzleObj.GetBoardSize(), " grid")
 print()
-print("Puzzle is difficulty ",puzzleObj.GetDifficulty()," out of 3")
+print("Puzzle is ",puzzleObj.GetDifficulty()," difficulty")
 print()
 
 #test puzzle.grid to see if values stored correctly
@@ -629,7 +629,7 @@ for ele in engine.history.history:
 #trying to get a specific hint for the wan empty cell
 specHint = engine.GetSpecificHint(8,0)
 print()
-print("CALLING SPECIFIC HINT OF USER-ENTERED UNCHECKED INCORRECT MOVE")
+print("CALLING SPECIFIC HINT OF USER-SELECTED EMPTY CELL")
 print(specHint) #should be (0,3,6) (user entered a '1' in this spot instead of the correct '6')
 print("LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)")
 for ele in engine.history.history:
@@ -677,8 +677,8 @@ def MakeAMove(row,col,val):
         engine.history.ClearFromHistory(engine.puzzle.grid[row][col])
     else:
         oldCell = copy.deepcopy(engine.puzzle.grid[row][col])
-        print("current cell status (row,col,current value, given?): ",engine.puzzle.grid[row][col].GetRow(),engine.puzzle.grid[row][col].GetCol(),engine.puzzle.grid[row][col].GetEntry(),engine.puzzle.grid[row][col].given)
         print("user inputted row and col of cell they want to edit and value they want to enter: ",row,col,val)
+        print("current cell status (row,col,current value, given?): ",engine.puzzle.grid[row][col].GetRow(),engine.puzzle.grid[row][col].GetCol(),engine.puzzle.grid[row][col].GetEntry(),engine.puzzle.grid[row][col].given)
         print("what is returned from puzzle.SetCell(): ", engine.puzzle.SetCell(row,col,val))
         if engine.puzzle.SetCell(row,col,val):
             engine.puzzle.SetCell(row,col,val)
@@ -697,6 +697,29 @@ def MakeAMove(row,col,val):
         print(ele.oldCell.row,ele.oldCell.col,ele.oldCell.GetEntry(),ele.newCell.row,ele.newCell.col,ele.newCell.GetEntry(),ele.isCorrect)
     print()
 
+#testing making moves with above function
+
+print("TESTING MAKING MOVES WITH A FUNCTION")
 MakeAMove(0,3,9)
 MakeAMove(1,8,3)
 MakeAMove(2,0,1)
+
+#test recreate history functionality (after a hint is given, recheck remaining moves in history stack)
+#right now two moves in history stack in this order
+#first move wrong, second move right --> so puzzle is wrong after 1st move, and puzzle is still wrong after second move
+#after calling random hint, which should correct 1st wrong move, should remove it from history, recheck the one remaining move (the 2nd correct move), see that the puzzle is correct, and say True in hsitory stack
+
+print()
+print("AFTER CALLING RANDOM HINT, THE CELL AT ROW 1 COLUMN 8 AND ITS SOLUTION VALUE ARE RETURNED")
+randHint = engine.GetRandomHint()
+print(randHint)
+print()
+print("LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)")
+print("HERE THE REMAINING MOVE HAS BEEN RECHECKED AND SHOULD SAY TRUE SINCE IT IS A CORRECT MOVE AND THE ONLY MOVE")
+for ele in engine.history.history:
+    print(ele.oldCell.row,ele.oldCell.col,ele.oldCell.GetEntry(),ele.newCell.row,ele.newCell.col,ele.newCell.GetEntry(),ele.isCorrect)
+
+print()
+print("CURRENT BOARD STATUS AFTER RANDOM HINT")
+print_board(puzzleObj.grid)
+print()
