@@ -25,8 +25,12 @@ class Cell:
     def GetNotes(self):
         return self.notes
     
-    def SetNotes(self, notes:[]):
-        self.notes = notes
+    def SetNotes(self, note):
+        if note in self.notes:
+            self.notes.remove(note)
+        else:
+            self.notes.append(note)
+            self.notes.sort()
 
     def GetRow(self):
         return self.row
@@ -80,7 +84,7 @@ class Puzzle:
         cell.GetEntry() = value'''
 
     def GetNotes(self,row,col):
-        return self.grid[row][col].GetNotes
+        return self.grid[row][col].GetNotes()
     
     def SetNotes(self,row,col,notes):
         self.grid[row][col].SetNotes(notes)

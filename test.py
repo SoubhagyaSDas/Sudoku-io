@@ -145,11 +145,23 @@ print()
 print("SOLVED BOARD")
 print_sol_board(puzzleObj.grid)
 
-#test set and get cell functions and set and get notes functions
-puzzleObj.SetNotes(0,2,[1,2,4])
+#test set and get cell functions and set and get notes functions (regardless of order notes are put in, return them in numerical order)
+puzzleObj.SetNotes(0,2,1) #set a note of '1' in cell[0][2]
 print()
-print("The notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.grid[0][2].GetNotes())
+print("After setting a note of '1', the notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.GetNotes(0,2))
+puzzleObj.SetNotes(0,2,4) #set a note of '4' in cell[0][2]
 print()
+print("After setting a note of '4', the notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.GetNotes(0,2))
+puzzleObj.SetNotes(0,2,2) #set a note of '2' in cell[0][2]
+print()
+print("After setting a note of '2', the notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.GetNotes(0,2))
+print()
+print("The notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.GetNotes(0,2))
+print()
+puzzleObj.SetNotes(0,2,1) #removing the note '1' from cell[0][2]
+print("After removing the note '1' (by clicking on '1' again in note mode), the notes for cell in row ",puzzleObj.grid[0][2].GetRow()," column ",puzzleObj.grid[0][2].GetCol(), " are ",puzzleObj.GetNotes(0,2))
+print()
+#Testing user input and 'given' attribute values 
 print("BOARD WITH USER INPUT '2' IN ROW 0 COLUMN 2")
 ResetCells(cellsList) #need to reset cellEntries from being set to solution
 puzzleObj.SetCell(0,2,2)
