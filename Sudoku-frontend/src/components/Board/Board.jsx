@@ -34,7 +34,7 @@ const Board = () => {
   return (
     <div className="board">
       {board.map((row, x) => (
-        <div key={x} className={`row ${x % 3 === 0 && x !== 0 ? 'thick-top' : ''}`}>
+        <div key={x} className={`board-row ${x % 3 === 0 && x !== 0 ? 'thick-top' : ''}`}>
           {row.map((value, y) => (
             <Cell 
               key={`${x}-${y}`}
