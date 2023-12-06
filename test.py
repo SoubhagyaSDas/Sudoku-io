@@ -96,7 +96,7 @@ puzzleObj.grid = np.array(cellsList).reshape(9,9)
 #check if 2d puzzle matrix is set up correctly (check that each cellEntry has a value based on provided puzzle)
 for row in range(9):
     for col in range(9):
-        print(puzzleObj.grid[row][col].GetEntry(),puzzleObj.grid[row][col].row,puzzleObj.grid[row][col].col)
+        print(puzzleObj.GetValue(row,col),puzzleObj.grid[row][col].GetRow(),puzzleObj.grid[row][col].GetCol())
 
 def print_board(board):
     for i in range(len(board)):
@@ -172,7 +172,7 @@ print("For 0 row 0 col cell (should be True)", puzzleObj.grid[0][0].given)
 print("For 0 row 3 col cell (should be False)", puzzleObj.grid[0][3].given)
 print("For 0 row 2 col cell (should be False)", puzzleObj.grid[0][2].given)
 ResetCells(cellsList) #manually undo the "2" move before testing undo functionality below
-print("BOARD WITH MANUAL UNDOING OF LAST MOVE. BOARD IS RESET")
+print("BOARD WITH FORCED UNDOING OF LAST MOVE. BOARD IS RESET")
 print_board(puzzleObj.grid)
 
 #test history and hxentry functionality

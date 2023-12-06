@@ -1,0 +1,213 @@
+This document will explain the testing performed in test.py on the backend functionality present in representations.py and algorithms.py.
+test.py was created to mimic a user playing a sudoku game with a given puzzle and trying all the various functionalities.
+VS Code was used as the test driver and the tests were ran in test.py.
+
+Initialization:
+
+A stub for a 9x9 hard difficulty puzzle is used in place of reading one in from the database.
+sample_puzzle = [
+        [5, 3, 0, 0, 7, 0, 0, 0, 0],
+        [6, 0, 0, 1, 9, 5, 0, 0, 0],
+        [0, 9, 8, 0, 0, 0, 0, 6, 0],
+        [8, 0, 0, 0, 6, 0, 0, 0, 3],
+        [4, 0, 0, 8, 0, 3, 0, 0, 1],
+        [7, 0, 0, 0, 2, 0, 0, 0, 6],
+        [0, 6, 0, 0, 0, 0, 2, 8, 0],
+        [0, 0, 0, 4, 1, 9, 0, 0, 5],
+        [0, 0, 0, 0, 8, 0, 0, 7, 9]
+    ]
+The entries of each is stored in a list of values.
+A list of Cell objects is then initialized as cellsList.
+    The value (from entries list), given (is cell hardwired? attribute), row, and col attributes are set for each Cell in cellsList.
+    Cell.SetEntry() and Cell.SetGiven() are tested here.
+A Puzzle object (puzzleObj) is then instatiated and uses numpy array functionality to convert the 1-dimensional list of Cells of length 81 to a 2-dimensioanl list of 9 lists each with 9 Cells.
+
+All the moves and notes are stubs to represent the JSON-extracted values received from the frontend.
+Testing:
+
+SET UP THE PUZZLE AND GET ROW, COL, AND VALUE OF CELL
+Puzzle.GetValue(row,col), Cell.GetRow(), and Cell.GetCol() are tested here.
+The Puzzle object is looped through to read the value, row, and column of each Cell to ensure it is structured correctly and the attributes can be accessed appropriately.
+In this loop, each Cell's entry value, row, and column are printed out in that order.
+OUTPUT:
+5 0 0
+3 0 1
+0 0 2
+0 0 3
+7 0 4
+0 0 5
+0 0 6
+0 0 7
+0 0 8
+6 1 0
+0 1 1
+0 1 2
+1 1 3
+9 1 4
+5 1 5
+0 1 6
+0 1 7
+0 1 8
+0 2 0
+9 2 1
+8 2 2
+0 2 3
+0 2 4
+0 2 5
+0 2 6
+6 2 7
+0 2 8
+8 3 0
+0 3 1
+0 3 2
+0 3 3
+6 3 4
+0 3 5
+0 3 6
+0 3 7
+3 3 8
+4 4 0
+0 4 1
+0 4 2
+8 4 3
+0 4 4
+3 4 5
+0 4 6
+0 4 7
+1 4 8
+7 5 0
+0 5 1
+0 5 2
+0 5 3
+2 5 4
+0 5 5
+0 5 6
+0 5 7
+6 5 8
+0 6 0
+6 6 1
+0 6 2
+0 6 3
+0 6 4
+0 6 5
+2 6 6
+8 6 7
+0 6 8
+0 7 0
+0 7 1
+0 7 2
+4 7 3
+1 7 4
+9 7 5
+0 7 6
+0 7 7
+5 7 8
+0 8 0
+0 8 1
+0 8 2
+0 8 3
+8 8 4
+0 8 5
+0 8 6
+7 8 7
+9 8 8
+------------------------------------------
+SIZE AND DIFFICULTY SETTING AND GETTING
+Puzzle.SetBoardSize(size), Puzzle.GetBoardSize(), Puzzle.SetDifficulty(difficulty), and Puzzle.GetDifficulty() are tested here.
+The size and difficulty of the board are set to 9 (9x9) and "Hard" respectively.
+Print statements are then utilized to test the Get functions in this section.
+OUTPUT:
+Puzzle is a  9 x 9  grid
+
+Puzzle is  Hard  difficulty
+------------------------------------------
+PRINTING PUZZLE AND SOLVING PUZZLE
+Functions print_board(board) and print_sol_board(board) are created to print out the puzzle in the terminal.
+Checking that the puzzle is stored correctly in Puzzle.grid and Algorithms.SolvePuzzle(puzzle) for solving the puzzle are tested here.
+Algorithms clas object (algo) is created here.
+OUTPUT:
+ORIGINAL BOARD
+5 3 0  | 0 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+SOLVED BOARD
+5 3 4  | 6 7 8  | 9 1 2
+6 7 2  | 1 9 5  | 3 4 8
+1 9 8  | 3 4 2  | 5 6 7
+- - - - - - - - - - - -
+8 5 9  | 7 6 1  | 4 2 3
+4 2 6  | 8 5 3  | 7 9 1
+7 1 3  | 9 2 4  | 8 5 6
+- - - - - - - - - - - -
+9 6 1  | 5 3 7  | 2 8 4
+2 8 7  | 4 1 9  | 6 3 5
+3 4 5  | 2 8 6  | 1 7 9
+------------------------------------------
+NOTES SETTING AND GETTING AND UNDOING A NOTE
+Puzzle.SetNotes(row,col,note) and Puzzle.GetNotes(row,col) are tested here.
+This test is focused on the cell in row 0 column 2.
+The user is setting a note of '1', then '4', then '2' for this cell.
+The user then wants to undo the note of '1' for that cell.
+OUTPUT:
+After setting a note of '1', the notes for cell in row  0  column  2  are  [1]
+
+After setting a note of '4', the notes for cell in row  0  column  2  are  [1, 4]
+
+After setting a note of '2', the notes for cell in row  0  column  2  are  [1, 2, 4]
+
+The notes for cell in row  0  column  2  are  [1, 2, 4]
+
+After removing the note '1' (by clicking on '1' again in note mode), the notes for cell in row  0  column  2  are  [2, 4]
+------------------------------------------
+SET CELL ENTRY AND CHECK GIVEN ATTRIBUTE 
+Puzzle.SetCell(row,col,value) and checking Puzzle.grid[row][col].given attribute after it has been sent initializing the puzzle and making a move.
+This test is setting the cell at row 0 column 2 to the value of 2.
+The given attributes of cells at row 0 column 0, row 0 column 3, and row 0 column 2 are checked.
+    The first (cell[0][0]) should be True since that is givne in the initial puzzle.
+    The second (cell[0][3]) should be False since it is blank from the initial puzzle.
+    The third (cell[0][2]) should be False since it is a player-filled entry that hasn't been checked yet.
+The user move of setting the value '2' in cell at row 0 column 0 is then manually undone to reset the puzzle for future tests.
+OUTPUT:
+BOARD WITH USER INPUT '2' IN ROW 0 COLUMN 2
+5 3 2  | 0 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - - 
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+CHECKING GIVEN VARIABLE OF CELLS
+For 0 row 0 col cell (should be True) True
+For 0 row 3 col cell (should be False) False
+For 0 row 2 col cell (should be False) False
+BOARD WITH FORCED UNDOING OF LAST MOVE. BOARD IS RESET
+5 3 0  | 0 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+------------------------------------------
+MAKING MULTIPLE MOVES AND IMPLEMENTING HISTORY STACK
+A HxEntry (History Entry) class object (histEnt), History class object (hist) and Game Engine class object (engine) are created here.
+For each move, the HxEntry class object gets recreated.
+GameEngine.SetCurrentValue(val), GameEngine.GetCurrentValue(), Puzzle.ResetCell(row,col), History.ClearFromHistory(cell), and Cell.GetEntry() are tested here first.

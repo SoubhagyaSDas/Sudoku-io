@@ -55,7 +55,7 @@ class Puzzle:
     def GetBoardSize(self):
         return self.size
     
-    def SetBoardSize(self,size:str):
+    def SetBoardSize(self,size:int):
         self.size = size
 
     def GetValue(self,row,col):
