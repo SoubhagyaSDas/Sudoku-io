@@ -19,7 +19,7 @@ const Timer = () => {
 
   return (
     <div className="timer">
-      Timer: {formatTime(time)}
+      <span className='timer-label'>Timer: </span> <span className='timer-value'>{formatTime(time)}</span>
     </div>
   );
 };

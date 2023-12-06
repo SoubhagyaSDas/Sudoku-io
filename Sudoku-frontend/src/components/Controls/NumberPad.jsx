@@ -5,11 +5,13 @@ const NumberPad = ({ onNumberSelect }) => {
   
   return (
     <div className="number-pad">
-      {numbers.map((number) => (
-        <button key={number} onClick={() => onNumberSelect(number)}>
-          {number}
-        </button>
-      ))}
+      <div className='row col-12'>
+        {numbers.map((number) => (
+          <button key={number} onClick={() => onNumberSelect(number)}>
+            {number}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
