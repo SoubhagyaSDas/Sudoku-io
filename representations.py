@@ -86,8 +86,8 @@ class Puzzle:
     def GetNotes(self,row,col):
         return self.grid[row][col].GetNotes()
     
-    def SetNotes(self,row,col,notes):
-        self.grid[row][col].SetNotes(notes)
+    def SetNotes(self,row,col,note):
+        self.grid[row][col].SetNotes(note)
 
     def GetDifficulty(self):
         return self.difficulty
