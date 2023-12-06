@@ -47,7 +47,7 @@ class Cell:
 #completed by Andrew
 class Puzzle:
     def __init__(self):
-        self.difficulty = "Easy" #integer of difficulty 1=easy, 2=medium, 3=hard
+        self.difficulty = "Easy"  #easy, medium, or hard
         self.size = 9 #4 = 4x4, 9 = 9x9
         #self.grid = Cell[self.size][self.size]
         self.grid = [[]]
@@ -187,7 +187,7 @@ class Algorithms:
             if puzzle.grid[row][i].GetEntry() == num or puzzle.grid[i][col].GetEntry() == num:
                 return False
 
-        start_row, start_col = 3 * (row // 3), 3 * (col // 3)
+        start_row, start_col = int(math.sqrt(puzzle.GetBoardSize())) * (row // int(math.sqrt(puzzle.GetBoardSize()))), int(math.sqrt(puzzle.GetBoardSize())) * (col // int(math.sqrt(puzzle.GetBoardSize())))
         for i in range(int(math.sqrt(puzzle.GetBoardSize()))):
             for j in range(int(math.sqrt(puzzle.GetBoardSize()))):
                 if puzzle.grid[start_row + i][start_col + j].GetEntry() == num:
