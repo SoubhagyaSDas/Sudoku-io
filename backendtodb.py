@@ -9,6 +9,7 @@ cred = credentials.Certificate('./sudoku-io-firebase-adminsdk-gsy8b-2677c25397.j
 fireApp = firebase_admin.initialize_app(cred)
 db = firestore.client() #Open firebase db
 
+#Pass sudoku object to store to database
 def save_to_database(sudoku: Puzzle()):
     # Reference to collection of puzzles
     puzzle_ref = db.collection('puzzles')
@@ -36,6 +37,7 @@ def save_to_database(sudoku: Puzzle()):
     }
     # saving to database
     puzzle_ref.document(str(count)).set(data)
+
 
 #Pass puzzle_id and sudoku object to function
 def load_from_database(puzzle_id, sudoku: Puzzle()):
