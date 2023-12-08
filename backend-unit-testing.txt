@@ -209,5 +209,161 @@ BOARD WITH FORCED UNDOING OF LAST MOVE. BOARD IS RESET
 ------------------------------------------
 MAKING MULTIPLE MOVES AND IMPLEMENTING HISTORY STACK
 A HxEntry (History Entry) class object (histEnt), History class object (hist) and Game Engine class object (engine) are created here.
-For each move, the HxEntry class object gets recreated.
-GameEngine.SetCurrentValue(val), GameEngine.GetCurrentValue(), Puzzle.ResetCell(row,col), History.ClearFromHistory(cell), and Cell.GetEntry() are tested here first.
+GameEngine.SetCurrentValue(val), GameEngine.GetCurrentValue(), Puzzle.ResetCell(row,col), History.ClearFromHistory(cell), History.AddToHistoy(hxentry), and Cell.GetEntry() are tested here.
+For each move: 
+    A HxEntry class object gets initialized.
+    It is checked if that value already exists in a user-inputted cell. 
+        If so, then clear the cell and remove all moves involving this cell from history.
+        If not, proceed to make the move.
+    If the move is to be made, set the user-inputted entry into the cell.
+    Create a history entry with specified inputs to be added to history stack.
+    Add the history entry to the history stack.
+The test here for each move has print statements showing a few things.
+    The updated board after the user's move.
+    What the history entry looks like for the user's move.
+    The addresses of the moves in history (Can see it update after each move)
+OUTPUT:
+BOARD WITH USER MOVE OF '4' IN ROW 0 COL 2
+5 3 4  | 0 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - - 
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+HISTORY ELEMENT REFLECTING PAST MOVE (old row, old col, old value, new row, new col, new value, is puzzle correct?)
+0 2 0 0 2 4 True
+
+ADDRESSES OF HxEntry OBJECTS IN HISTORY
+[<representations.HxEntry object at 0x00000259EE025C70>]
+
+BOARD WITH USER MOVE OF '8' IN ROW 0 COL 3
+5 3 4  | 8 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+HISTORY ELEMENT REFLECTING PAST MOVE (old row, old col, old value, new row, new col, new value, is puzzle correct?)
+0 3 0 0 3 8 False
+
+ADDRESSES OF HxEntry OBJECTS IN HISTORY
+[<representations.HxEntry object at 0x00000259EE025C70>, <representations.HxEntry object at 0x00000259EE025D30>]
+
+BOARD WITH USER MOVE OF '9' IN ROW 0 COL 6
+5 3 4  | 8 7 0  | 9 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+HISTORY ELEMENT REFLECTING PAST MOVE (old row, old col, old value, new row, new col, new value, is puzzle correct?)
+0 6 0 0 6 9 False
+
+ADDRESSES OF HxEntry OBJECTS IN HISTORY
+[<representations.HxEntry object at 0x00000259EE025C70>, <representations.HxEntry object at 0x00000259EE025D30>, <representations.HxEntry object at 0x00000259EE025CD0>]
+
+BOARD WITH USER MOVE OF '6' IN ROW 0 COL 3
+5 3 4  | 6 7 0  | 9 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+
+HISTORY ELEMENT REFLECTING PAST MOVE (old row, old col, old value, new row, new col, new value, is puzzle correct?)
+0 3 8 0 3 6 True
+
+ADDRESSES OF HxEntry OBJECTS IN HISTORY
+[<representations.HxEntry object at 0x00000259EE025C70>, <representations.HxEntry object at 0x00000259EE025D30>, <representations.HxEntry object at 0x00000259EE025CD0>, <representations.HxEntry object at 0x00000259EE0261B0>]
+
+LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)
+0 2 0 0 2 4 True
+0 3 0 0 3 8 False
+0 6 0 0 6 9 False
+0 3 8 0 3 6 True
+------------------------------------------
+UNDO
+GameEngine.Undo() is tested here.
+The most recent move is undone (see last move of '6' in cell at row 0 column 3 not in history stack anymore)
+The address of this move is printed, as well as the updated history stack and puzzle grid.
+OUTPUT:
+Undone move address:  <representations.HxEntry object at 0x00000259EE0261B0>
+
+LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)
+0 2 0 0 2 4 True
+0 3 0 0 3 8 False
+0 6 0 0 6 9 False
+
+SEE PUZZLE BOARD WITH MOST RECENT MOVE UNDONE
+5 3 4  | 8 7 0  | 9 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+------------------------------------------
+UNDO UNTIL CORRECT
+GameEngine.UndoUntilCorrect() is tested here.
+Based on the current status after the last undo, the last 2 moves should be undone to return to a state of the puzzle being correct.
+The addresses of the moves to be undone as well as the move itself (cell row, cell col, user-inputted entry) are printed out.
+The undone until correct board is also printed out.
+OUTPUT:
+Undone moves addresses:  [<representations.HxEntry object at 0x00000259EE025CD0>, <representations.HxEntry object at 0x00000259EE025D30>]
+UNDOING THIS MOVE AS PART OF UndoUntilCorrect() (formatted row,col,value)
+0 6 9
+UNDOING THIS MOVE AS PART OF UndoUntilCorrect() (formatted row,col,value)
+0 3 8
+
+PUZZLE BOARD WITH MOST RECENT STATUS OF WHEN FULL PUZZLE WAS CORRECT
+5 3 4  | 0 7 0  | 0 0 0
+6 0 0  | 1 9 5  | 0 0 0
+0 9 8  | 0 0 0  | 0 6 0
+- - - - - - - - - - - -
+8 0 0  | 0 6 0  | 0 0 3
+4 0 0  | 8 0 3  | 0 0 1
+7 0 0  | 0 2 0  | 0 0 6
+- - - - - - - - - - - -
+0 6 0  | 0 0 0  | 2 8 0
+0 0 0  | 4 1 9  | 0 0 5
+0 0 0  | 0 8 0  | 0 7 9
+------------------------------------------
+CHECK SOLUTION FUNCTIONALITY
+For this test, we are continuing making moves in the game.
+Currently there is the one move made in the puzzle/history.
+This test proceeds to make 6 more moves in the following order:
+    A correct move of value 6 in cell at row 0 column 3.
+    A wrong move of value 3 in cell at row 0 column 5.
+    A wrong move of value 7 in cell at row 0 column 6.
+    A correct move of value 9 in cell at row 0 column 6 correcting the previous move.
+    A wrong move of value 2 in cell at row 0 column 7.
+    A user-undo move by entering same value already in user-edited cell. Done by user entering a value of 6 in cell at row 0 column 3.
+ 
+AT THIS POINT IT WAS DECIDED TEST.PY WAS ENOUGH DOCUMENTATION (12/6/23)
