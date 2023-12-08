@@ -1,62 +1,66 @@
-import sqlite3
 import json  # Used to serialize/deserialize puzzle data
+import firebase_admin #pip install firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from representations import Cell, Puzzle
 
-class Puzzle:
-    def __init__(self):
-        self.difficulty = "Easy"
-        self.size = 9
-        self.grid = [[]]
+# credentials to verify firestore link
+cred = credentials.Certificate('./sudoku-io-firebase-adminsdk-gsy8b-2677c25397.json')
+fireApp = firebase_admin.initialize_app(cred)
+db = firestore.client() #Open firebase db
 
-        # Connect to the SQLite database
-        self.connection = sqlite3.connect("sudoku.db")
-        self.cursor = self.connection.cursor()
+def save_to_database(sudoku: Puzzle()):
+    # Reference to collection of puzzles
+    puzzle_ref = db.collection('puzzles')
 
-        # Initialize the database schema
-        self._init_database()
 
-    def _init_database(self):
-        # Create a table to store puzzle data
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS "Puzzles" (
-                "ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-                "Difficulty" TEXT,
-                "Size" INTEGER,
-                "Grid" TEXT
-            )
-        ''')
-        self.connection.commit()
+    board = [[0 for _ in range(9)] for _ in range(9)]
+    for i in range(9):
+        for j in range(9):
+            board[i][j] = sudoku.grid[i][j].GetEntry()
+    # Create an empty board to convert list of Cells to firestore format
+    firestore_board = {}
+    for i, row in enumerate(board, start=1):
+        firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
 
-    def save_to_database(self):
-        # Serialize puzzle data to JSON
-        serialized_grid = json.dumps([[cell.GetEntry() for cell in row] for row in self.grid])
+    doc_id = puzzle_ref.document("count") #Read from collection of puzzle count
+    get_count = doc_id.get(field_paths={"puzzleCount"}).to_dict()#Store puzzle count
+    count = get_count.get("puzzleCount") + 1 #Add 1 to puzzle count
+    doc_id.update({'puzzleCount': count}) #Update firestore count data
 
-        # Save puzzle data to the database
-        self.cursor.execute('''
-            INSERT INTO "Puzzles" ("Difficulty", "Size", "Grid") VALUES (?, ?, ?)
-        ''', (self.difficulty, self.size, serialized_grid))
-        self.connection.commit()
+    # Puzzle information to be sent to firestore
+    data = {
+        "difficulty": sudoku.GetDifficulty(),
+        "size": sudoku.GetBoardSize(),
+        "board": firestore_board
+    }
+    # saving to database
+    puzzle_ref.document(str(count)).set(data)
 
-    def load_from_database(self, puzzle_id):
-        # Load puzzle data from the database
-        self.cursor.execute('''
-            SELECT "Difficulty", "Size", "Grid" FROM "Puzzles" WHERE "ID" = ?
-        ''', (puzzle_id,))
-        row = self.cursor.fetchone()
+#Pass puzzle_id and sudoku object to function
+def load_from_database(puzzle_id, sudoku: Puzzle()):
+    boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
+    doc_ref = boardDocs.document(str(puzzle_id)).get()# Reference to the specific puzzle document
 
-        if row:
-            self.difficulty, self.size, serialized_grid = row
+    # if puzzzle with the id exist
+    if doc_ref.exists:
+        puzzle_data = doc_ref.to_dict() #Store puzzle data
+        # Board size
+        size = puzzle_data['size']
+        sudoku.SetDifficulty(puzzle_data['difficulty'])#Set puzzle difficulty to stored
+        sudoku.SetBoardSize(size)#Set puzzle size to stored
+        board_data = puzzle_data['board'] #Set board  to stored
 
-            # Deserialize puzzle data from JSON
-            self.grid = [[Cell() for _ in range(self.size)] for _ in range(self.size)]
-            deserialized_grid = json.loads(serialized_grid)
-            
-            for i in range(self.size):
-                for j in range(self.size):
-                    self.grid[i][j].SetEntry(deserialized_grid[i][j])
-
-    def close_connection(self):
-        if self.connection:
-            self.connection.close()
+        #convert the firestore board to a 2D List of the numbers
+        board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        #Set the grid to the cells
+        sudoku.grid = [[Cell() for _ in range(size)] for _ in range(size)]
+        # Fill the cells with number
+        for i in range(size):
+            for j in range(size):
+                sudoku.grid[i][j].SetEntry(board[i][j])
+    else:
+        print("Does not work")
             
     # ... (other methods remain unchanged from the representations.py file)
 import sqlite3
@@ -107,6 +111,8 @@ class History:
     # ... (other methods remain unchanged)
 
 class Algorithms:
+    def __init__(self) -> None:
+        self.rand = []
     # ... (other methods remain unchanged)
 
 class GameEngine:
