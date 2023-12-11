@@ -50,6 +50,7 @@ class Puzzle:
         self.difficulty = "Easy"  #easy, medium, or hard
         self.size = 9 #4 = 4x4, 9 = 9x9
         #self.grid = Cell[self.size][self.size]
+        self.boardID = 0
         self.grid = [[]]
 
     def GetBoardSize(self):
@@ -57,6 +58,12 @@ class Puzzle:
     
     def SetBoardSize(self,size:int):
         self.size = size
+
+    def GetBoardID(self):
+        return self.boardID
+    
+    def SetBoardID(self,boardID:int):
+        self.boardID = boardID
 
     def GetValue(self,row,col):
         return self.grid[row][col].GetEntry()

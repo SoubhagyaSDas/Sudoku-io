@@ -38,7 +38,6 @@ def save_to_database(sudoku: Puzzle()):
     # saving to database
     puzzle_ref.document(str(count)).set(data)
 
-
 #Pass puzzle_id and sudoku object to function
 def load_from_database(puzzle_id, sudoku: Puzzle()):
     boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
@@ -50,6 +49,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle()):
         # Board size
         size = puzzle_data['size']
         sudoku.SetDifficulty(puzzle_data['difficulty'])#Set puzzle difficulty to stored
+        sudoku.SetBoardID(puzzle_id)
         sudoku.SetBoardSize(size)#Set puzzle size to stored
         board_data = puzzle_data['board'] #Set board  to stored
 
@@ -63,7 +63,17 @@ def load_from_database(puzzle_id, sudoku: Puzzle()):
                 sudoku.grid[i][j].SetEntry(board[i][j])
     else:
         print("Does not work")
-            
+
+def update(new_board: list, sudoku: Puzzle()):
+    #Connects to puzzle storage doc
+    puzzle_ref = db.collection('puzzles')
+
+    # Convert updated  board to firestore format
+    firestore_board = {}
+    for i, row in enumerate(new_board, start=1):
+        firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
+    # Store the updated board to firestore
+    puzzle_ref.document(str(sudoku.GetBoardID())).update({'board': firestore_board})
     # ... (other methods remain unchanged from the representations.py file)
 import sqlite3
 import json
