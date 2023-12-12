@@ -273,6 +273,7 @@ import random
 class GameEngine:
     def __init__(self):
         self.puzzle = Puzzle()
+        self.solvedPuzzle = Puzzle()
         self.currentValue = 0
         self.history = History()
         self.algo = Algorithms()

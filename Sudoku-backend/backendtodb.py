@@ -2,12 +2,13 @@ import json  # Used to serialize/deserialize puzzle data
 import firebase_admin #pip install firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from representations import Cell, Puzzle
+from representations import Cell, Puzzle, Algorithms
 
 # credentials to verify firestore link
 cred = credentials.Certificate('./sudoku-io-firebase-adminsdk-gsy8b-2677c25397.json')
 fireApp = firebase_admin.initialize_app(cred)
 db = firestore.client() #Open firebase db
+algo = Algorithms()
 
 #Pass sudoku object to store to database
 def save_to_database(sudoku: Puzzle()):

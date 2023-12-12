@@ -14,6 +14,7 @@ import undo from "./assets/undo.jpg";
 
 function App() {
   const [darkMode, setDarkMode] = useState(true); // State to handle theme
+  const [hintRequested, setHintRequested] = useState(false); // State to track if hint is requested
 
   // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
@@ -30,6 +31,12 @@ function App() {
     setDarkMode(!darkMode); // Toggle the theme state
   };
 
+    // handle hint button click
+    const handleHintButtonClick = () => {
+      // Set the hintRequested state to true
+      setHintRequested(true);
+    };
+
   // Conditional class assignment based on the theme state
   const themeClass = darkMode ? 'dark-mode' : 'light-mode';
 
@@ -42,7 +49,7 @@ function App() {
           </div>
           <div className='option-div'>
             <div>
-              <a className='option-click'>
+              <a className='option-click' onClick={handleHintButtonClick}>
                 <img src={hint} className='option-img'></img>
                 <p className='option-text'>Hints</p>
               </a>
@@ -80,7 +87,8 @@ function App() {
           <div className="row board-div">
             <div className="col-lg-7 col-md-12 col-12">
               <div className='game-board'>
-                <Board />
+                {/* Pass Hint Click to the board */}
+                <Board hintRequested={hintRequested} setHintRequested={setHintRequested}/>
               </div>
             </div>
             <div className="col-lg-5 col-md-12 col-12 number-div">
