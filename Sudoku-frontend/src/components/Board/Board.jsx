@@ -3,9 +3,13 @@ import axios from 'axios'; //npm i axios
 import Cell from './Cell';
 import '../../App.css'; // Corrected import path for App.css
 
-const Board = () => {
+const Board = ({hintRequested, setHintRequested}) => {
+  // Store the board
   const [board, setBoard] = useState(Array(9).fill(Array(9).fill('')));
   const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
+  // Store the solved board
+  const [solved, setSolved] = useState(Array(9).fill(Array(9).fill('')));
+  const [hintFound, setHintFound] = useState(false); // State to track if a hint is found
 
   useEffect(() => {
     const initializeBoardFromFile = async (filePath) => {
@@ -18,14 +22,41 @@ const Board = () => {
         const filteredBoard = data.puzzle.map(row =>
           row.map(cell => (cell !== 0 ? cell : ''))
         )
-        //add the board
+        //add the user board as well as the solved one
         setBoard(filteredBoard);
+        setSolved(data.solvedPuzzle)
       } catch (error){
         console.error("Error fetching", error)
       }
     }
     initializeBoardFromFile('http://127.0.0.1:5000/api/get_puzzle/1')
   }, []);
+
+  useEffect(() => {
+    // Everytime hint is requested in main App.jsx
+    if(hintRequested && !hintFound){
+      // Loops through the board until an empty cell is found
+      for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+          if(board[i][j] == 0){
+            //get correct cell value from the solved board and pass it to board
+            const hintValue = solved[i][j];
+            handleCellChange(i,j, hintValue);
+            setHintFound(true);
+            setHintRequested(false);
+            return;
+          }
+
+        }
+      }
+      if(!hintFound){
+        setHintRequested(false);
+      }
+    }
+    setHintFound(false);
+
+  }, [hintRequested, hintFound, setHintRequested]);
+  
 
 
   const handleCellChange = (x, y, value) => {
@@ -35,11 +66,18 @@ const Board = () => {
         cellIndex === y ? value : cell
       ) : row
     );
-    //Convert the new changed board in a 2d grid and send it to the server
-    // Make sure the string board values are sent as integers
+    //Convert the new changed board in a 2d grid
     const backBoard = Array.from(newBoard.values()).map((row) => row.map(Number));
-    axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard})
-    return newBoard;
+    // Compare inputted cell to correct cell in solved Board
+    const isCorrect = JSON.stringify(backBoard[x][y]) === JSON.stringify(solved[x][y]);
+    // If the cell input is correct update database
+    if(isCorrect){
+      axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard})
+      return newBoard;
+    }
+    else{
+      return prevBoard;
+    }
   });
   };
 

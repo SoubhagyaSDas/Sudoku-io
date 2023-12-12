@@ -4,9 +4,8 @@ from representations import GameEngine
 from backendtodb import load_from_database, save_to_database, update
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 sudoku = GameEngine()
-
 
 @app.route('/api/get_puzzle/<puzzle_id>', methods=['POST'])
 def generate_sudoku():
@@ -14,13 +13,24 @@ def generate_sudoku():
 
 @app.route('/api/get_puzzle/<puzzle_id>', methods=['GET'])
 def get_puzzle(puzzle_id):
+    # load the puzzles into the user board and another used to verify
     load_from_database(puzzle_id, sudoku.puzzle)
+    load_from_database(puzzle_id, sudoku.solvedPuzzle)
+    sudoku.algo.SolvePuzzle(sudoku.solvedPuzzle) #Solve the puzzle
+
     # Converting puzzle information to json
     board = [[0 for _ in range(9)] for _ in range(9)]
     for i in range(9):
         for j in range(9):
             board[i][j] = sudoku.puzzle.grid[i][j].GetEntry()
-    return jsonify({'puzzle': board})
+    # Converting puzzle information to json
+    solvedBoard = [[0 for _ in range(9)] for _ in range(9)]
+    for i in range(9):
+        for j in range(9):
+            solvedBoard[i][j] = sudoku.solvedPuzzle.grid[i][j].GetEntry()
+        
+    return jsonify({'puzzle': board,
+                    'solvedPuzzle': solvedBoard})
 
 @app.route('/api/update', methods =['POST'])
 def updateBoard():
@@ -29,7 +39,7 @@ def updateBoard():
     new_board = data.get('puzzle')
     # Pass new grid and game engine puzzle to the backenddb function
     update(new_board, sudoku.puzzle)
-    return({'Message', 'Works'})
+    return jsonify({'Message': 'Works'})
 
 if __name__ == '__main__':
     app.run(debug=True)
