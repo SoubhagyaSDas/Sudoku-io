@@ -233,7 +233,7 @@ LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)
 0 3 0 0 3 8 False
 0 6 0 0 6 9 False
 0 3 8 0 3 6 True
-Undone move address:  <representations.HxEntry object at 0x00000277CD31AA80>
+Undone move:  0 3 8 0 3 6 True
 
 LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)
 0 2 0 0 2 4 True
@@ -253,7 +253,6 @@ SEE PUZZLE BOARD WITH MOST RECENT MOVE UNDONE
 0 0 0  | 4 1 9  | 0 0 5
 0 0 0  | 0 8 0  | 0 7 9
 
-Undone moves addresses:  [<representations.HxEntry object at 0x00000277CCA2DFA0>, <representations.HxEntry object at 0x00000277CC7BAD20>]    
 UNDOING THIS MOVE AS PART OF UndoUntilCorrect() (formatted row,col,value)
 0 6 9
 UNDOING THIS MOVE AS PART OF UndoUntilCorrect() (formatted row,col,value)

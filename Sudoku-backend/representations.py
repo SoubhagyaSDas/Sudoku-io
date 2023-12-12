@@ -136,26 +136,46 @@ class History:
         return self.history.pop()
     
     def ClearFromHistory(self, cell:Cell): #used when a hint is given or when check puzzle is called and correct moves are made hardwired (given) meaning any past move involving that cell should be removed from history (no need for those moves to be undone)
+        #newHistory = []
+        #for move in self.history:
+            #print(move.newCell.row, move.newCell.col)
+            #print(cell.row, cell.col)
+            #print("move went through")
+            #if move.newCell.row != cell.row or move.newCell.col != cell.col:
+                #newHistory.append(move)
+        
         self.history = list(filter(lambda histItem: histItem.newCell.row != cell.row or histItem.newCell.col != cell.col,self.history))
+        #self.history = newHistory
+        #print("in clear from history")
+        #print(self.history)
 
     def RecreateHistory(self,puzzle:Puzzle,algo):
         #print statements commented out below were to check outputs at various stages
         reverseHistory = []
         #print(self.history)
-        for move in self.history:
+        for move in range(len(self.history)):
             #print(move)
-            reverseHistory.append(self.PopLastMove())
+            #print("hello")
+            undoneMove = self.PopLastMove()
+            reverseHistory.append(undoneMove)
+            puzzle.SetCell(undoneMove.oldCell.row,undoneMove.oldCell.col,undoneMove.oldCell.GetEntry())
+            #reverseHistory.append(self.PopLastMove())
+            #print("goodbye")
         
         #print(reverseHistory)
 
         fixedHistory = []
-        for entry_to_recheck in reverseHistory:
+        for index in range(len(reverseHistory)-1,-1,-1):
             #print(entry_to_recheck.oldCell,entry_to_recheck.newCell)
-            entry_to_recheck.CreateEntry(entry_to_recheck.oldCell,entry_to_recheck.newCell,entry_to_recheck.IsCorrect(puzzle,algo))
-            #print(entry_to_recheck)
-            fixedHistory.append(entry_to_recheck)
+            entry_to_recheck = reverseHistory[index]
+            puzzle.SetCell(entry_to_recheck.newCell.row,entry_to_recheck.newCell.col,entry_to_recheck.newCell.GetEntry())
+            recheckedEntry = HxEntry()
+            recheckedEntry.CreateEntry(entry_to_recheck.oldCell,entry_to_recheck.newCell,entry_to_recheck.IsCorrect(puzzle,algo))
+            #print(entry_to_recheck)            
+            fixedHistory.append(recheckedEntry)
 
         self.history = fixedHistory
+        #print(self.history)
 
 #completed by Nashrah, edited by Andrew
 class Algorithms:
@@ -297,7 +317,7 @@ class GameEngine:
             self.history.RecreateHistory(self.puzzle,self.algo)
             return errorToFix.row, errorToFix.col, errorToFix.solution
         elif not errors and empty: #no user-entered errors but empty cells exist
-            randEmptyIndex = random.randint(0,len(empty))
+            randEmptyIndex = random.randint(0,len(empty)-1)
             emptyToFill = empty[randEmptyIndex]
             self.puzzle.grid[emptyToFill.row][emptyToFill.col].SetEntry(emptyToFill.solution)
             self.puzzle.grid[emptyToFill.row][emptyToFill.col].SetGiven()

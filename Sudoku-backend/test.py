@@ -293,7 +293,7 @@ for ele in engine.history.history:
 #UNDO
 #print(engine.Undo()) #checking that popped HxEntry gets returned
 undoneMove = engine.Undo()
-print("Undone move address: ",undoneMove)
+print("Undone move: ",undoneMove.oldCell.row,undoneMove.oldCell.col,undoneMove.oldCell.GetEntry(),undoneMove.newCell.row,undoneMove.newCell.col,undoneMove.newCell.GetEntry(),undoneMove.isCorrect)
 engine.puzzle.SetCell(undoneMove.oldCell.row,undoneMove.oldCell.col,undoneMove.oldCell.GetEntry())
 print()
 print("LOOKING AT HISTORY STACK, MOST RECENT MOVE ON BOTTOM (last printed)")
@@ -307,7 +307,7 @@ print()
 
 #UNDO UNTIL CORRECT
 undoneMoves = engine.UndoUntilCorrect()
-print("Undone moves addresses: ",undoneMoves)
+#print("Undone moves addresses: ",undoneMoves)
 for move in undoneMoves:
     print("UNDOING THIS MOVE AS PART OF UndoUntilCorrect() (formatted row,col,value)")
     print(move.oldCell.row,move.oldCell.col,move.newCell.GetEntry())
