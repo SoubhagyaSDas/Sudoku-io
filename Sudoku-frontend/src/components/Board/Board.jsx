@@ -41,6 +41,7 @@ const Board = ({hintRequested, setHintRequested}) => {
           if(board[i][j] == 0){
             //get correct cell value from the solved board and pass it to board
             const hintValue = solved[i][j];
+            // Call the cell change function to input changes
             handleCellChange(i,j, hintValue);
             setHintFound(true);
             setHintRequested(false);
@@ -49,10 +50,12 @@ const Board = ({hintRequested, setHintRequested}) => {
 
         }
       }
+      // If all cell is fill request is set back to false
       if(!hintFound){
         setHintRequested(false);
       }
     }
+    // Set found back to false for the next hint
     setHintFound(false);
 
   }, [hintRequested, hintFound, setHintRequested]);
