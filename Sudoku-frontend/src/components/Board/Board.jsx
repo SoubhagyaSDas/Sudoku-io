@@ -3,7 +3,7 @@ import axios from 'axios'; //npm i axios
 import Cell from './Cell';
 import '../../App.css'; // Corrected import path for App.css
 
-const Board = ({hintRequested, setHintRequested}) => {
+const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
   // Store the board
   const [board, setBoard] = useState(Array(9).fill(Array(9).fill('')));
   const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
@@ -29,8 +29,10 @@ const Board = ({hintRequested, setHintRequested}) => {
         console.error("Error fetching", error)
       }
     }
-    initializeBoardFromFile('http://127.0.0.1:5000/api/get_puzzle/1')
-  }, []);
+    
+    const url = "http://127.0.0.1:5000/api/load_puzzle" + selectedDifficulty;
+    initializeBoardFromFile(url);
+  }, [selectedDifficulty]);
 
   // Attempt to use backend GetHint. Not working yet
   // useEffect(() => {

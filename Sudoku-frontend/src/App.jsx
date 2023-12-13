@@ -15,10 +15,12 @@ import undo from "./assets/undo.jpg";
 function App() {
   const [darkMode, setDarkMode] = useState(true); // State to handle theme
   const [hintRequested, setHintRequested] = useState(false); // State to track if hint is requested
+  const [selectedDifficulty, setSelectedDifficulty] = useState('Easy');// Sate to track difficulty
 
   // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
     // Your logic here
+    setSelectedDifficulty(difficulty);
   };
 
   // Handle number selection
@@ -88,7 +90,7 @@ function App() {
             <div className="col-lg-7 col-md-12 col-12">
               <div className='game-board'>
                 {/* Pass Hint Click to the board */}
-                <Board hintRequested={hintRequested} setHintRequested={setHintRequested}/>
+                <Board hintRequested={hintRequested} setHintRequested={setHintRequested} selectedDifficulty={{selectedDifficulty}}/>
               </div>
             </div>
             <div className="col-lg-5 col-md-12 col-12 number-div">

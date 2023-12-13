@@ -22,9 +22,9 @@ def save_to_database(sudoku: Puzzle(), sudokuSol: Puzzle()):
     #solve the board
     algo.SolvePuzzle(sudokuSol)
     # Empty board to convert cell lists to 2d nymber list
-    board = [[0 for _ in range(9)] for _ in range(9)]
-    for i in range(9):
-        for j in range(9):
+    board = [[0 for _ in range(sudoku.GetBoardSize())] for _ in range(sudoku.GetBoardSize())]
+    for i in range(sudoku.GetBoardSize()):
+        for j in range(sudoku.GetBoardSize()):
             board[i][j] = sudoku.grid[i][j].GetEntry()
     # Create an empty board to convert list of Cells to firestore format
     firestore_board = {}
@@ -32,9 +32,9 @@ def save_to_database(sudoku: Puzzle(), sudokuSol: Puzzle()):
         firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
 
     #store the solution to db
-    board = [[0 for _ in range(9)] for _ in range(9)]
-    for i in range(9):
-        for j in range(9):
+    board = [[0 for _ in range(sudoku.GetBoardSize())] for _ in range(sudoku.GetBoardSize())]
+    for i in range(sudoku.GetBoardSize()):
+        for j in range(sudoku.GetBoardSize()):
             board[i][j] = sudokuSol.grid[i][j].GetEntry()
 
     Solfirestore_board = {}
@@ -73,7 +73,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
         solved_data = puzzle_data['solvedBoard'] #Store the solved board
 
         #convert the firestore board to a 2D List of the numbers
-        board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, size+1)] for i in range(1, size+1)]
         #Set the grid to the cells
         sudoku.grid = [[Cell() for _ in range(size)] for _ in range(size)]
         # Fill the cells with number
@@ -82,7 +82,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
                 sudoku.grid[i][j].SetEntry(board[i][j])
 
         # Store the
-        solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, size+1)] for i in range(1, size+1)]
         #Set the grid to the cells
         sudokuSol.grid = [[Cell() for _ in range(size)] for _ in range(size)]
         # Fill the cells with number
