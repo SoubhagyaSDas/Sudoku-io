@@ -105,11 +105,9 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
     // If the cell input is correct update database
     if(isCorrect){
       axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard})
+    }
       return newBoard;
-    }
-    else{
-      return prevBoard;
-    }
+
   });
   };
 
