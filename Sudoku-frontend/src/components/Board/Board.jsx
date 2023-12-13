@@ -24,13 +24,40 @@ const Board = ({hintRequested, setHintRequested}) => {
         )
         //add the user board as well as the solved one
         setBoard(filteredBoard);
-        setSolved(data.solvedPuzzle)
+        setSolved(data.solvedPuzzle);
       } catch (error){
         console.error("Error fetching", error)
       }
     }
     initializeBoardFromFile('http://127.0.0.1:5000/api/get_puzzle/1')
   }, []);
+
+  // Attempt to use backend GetHint. Not working yet
+  // useEffect(() => {
+  //   if(hintRequested && !hintFound){
+  //     const randomHint = async (filePath) => {
+  //       try{
+  //         console.log(board);
+  //         const response = await axios.get(filePath);
+  //         const data = response.data; //store jsondata
+
+  //         //filter so 0 values are empty cells
+  //       const filteredBoard = data.puzzle.map(row =>
+  //         row.map(cell => (cell !== 0 ? cell : ''))
+  //       )
+  //       //add the user board as well as the solved one
+  //       setBoard(filteredBoard);
+  //       setSolved(data.solvedPuzzle);
+  //       console.log(board);
+  //       } catch (error){
+  //         console.error("Error fetching", error);
+  //       }
+  //     }
+  //     randomHint('http://127.0.0.1:5000/api/hint');
+  //     }
+  //   setHintFound(false);
+  //   setHintRequested(false);
+  // }, []);
 
   useEffect(() => {
     // Everytime hint is requested in main App.jsx

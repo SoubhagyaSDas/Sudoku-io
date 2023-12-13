@@ -11,11 +11,18 @@ db = firestore.client() #Open firebase db
 algo = Algorithms()
 
 #Pass sudoku object to store to database
-def save_to_database(sudoku: Puzzle()):
+def save_to_database(sudoku: Puzzle(), sudokuSol: Puzzle()):
     # Reference to collection of puzzles
     puzzle_ref = db.collection('puzzles')
 
-
+    # Copy the user board and post in the solution grid
+    for i in range(sudoku.GetBoardSize()):
+        for j in range(sudoku.GetBoardSize()):
+            sudokuSol.grid[i][j].SetEntry(sudoku.grid[i][j].GetEntry())
+    
+    #solve the board
+    algo.SolvePuzzle(sudokuSol)
+    # Empty board to convert cell lists to 2d nymber list
     board = [[0 for _ in range(9)] for _ in range(9)]
     for i in range(9):
         for j in range(9):
@@ -24,6 +31,16 @@ def save_to_database(sudoku: Puzzle()):
     firestore_board = {}
     for i, row in enumerate(board, start=1):
         firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
+
+    #store the solution to db
+    board = [[0 for _ in range(9)] for _ in range(9)]
+    for i in range(9):
+        for j in range(9):
+            board[i][j] = sudokuSol.grid[i][j].GetEntry()
+
+    Solfirestore_board = {}
+    for i, row in enumerate(board, start=1):
+        Solfirestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
 
     doc_id = puzzle_ref.document("count") #Read from collection of puzzle count
     get_count = doc_id.get(field_paths={"puzzleCount"}).to_dict()#Store puzzle count
@@ -34,13 +51,14 @@ def save_to_database(sudoku: Puzzle()):
     data = {
         "difficulty": sudoku.GetDifficulty(),
         "size": sudoku.GetBoardSize(),
-        "board": firestore_board
+        "board": firestore_board,
+        "solvedBoard": Solfirestore_board
     }
     # saving to database
     puzzle_ref.document(str(count)).set(data)
 
 #Pass puzzle_id and sudoku object to function
-def load_from_database(puzzle_id, sudoku: Puzzle()):
+def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
     boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
     doc_ref = boardDocs.document(str(puzzle_id)).get()# Reference to the specific puzzle document
 
@@ -53,6 +71,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle()):
         sudoku.SetBoardID(puzzle_id)
         sudoku.SetBoardSize(size)#Set puzzle size to stored
         board_data = puzzle_data['board'] #Set board  to stored
+        solved_data = puzzle_data['solvedBoard'] #Store the solved board
 
         #convert the firestore board to a 2D List of the numbers
         board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
@@ -62,6 +81,15 @@ def load_from_database(puzzle_id, sudoku: Puzzle()):
         for i in range(size):
             for j in range(size):
                 sudoku.grid[i][j].SetEntry(board[i][j])
+
+        # Store the
+        solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        #Set the grid to the cells
+        sudokuSol.grid = [[Cell() for _ in range(size)] for _ in range(size)]
+        # Fill the cells with number
+        for i in range(size):
+            for j in range(size):
+                sudokuSol.grid[i][j].SetEntry(solved[i][j])
     else:
         print("Does not work")
 
