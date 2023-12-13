@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from representations import GameEngine
+from flask import Flask, request, jsonify #pip install flask
+from flask_cors import CORS #pip install flask_cors
+from representations import GameEngine, Cell
 from backendtodb import load_from_database, save_to_database, update
 
 app = Flask(__name__)
@@ -9,20 +9,18 @@ sudoku = GameEngine()
 
 @app.route('/api/get_puzzle/<puzzle_id>', methods=['POST'])
 def generate_sudoku():
-    save_to_database(sudoku.puzzle)
+    save_to_database(sudoku.puzzle, sudoku.solvedPuzzle)
 
 @app.route('/api/get_puzzle/<puzzle_id>', methods=['GET'])
 def get_puzzle(puzzle_id):
     # load the puzzles into the user board and another used to verify
-    load_from_database(puzzle_id, sudoku.puzzle)
-    load_from_database(puzzle_id, sudoku.solvedPuzzle)
-    sudoku.algo.SolvePuzzle(sudoku.solvedPuzzle) #Solve the puzzle
-
+    load_from_database(puzzle_id, sudoku.puzzle, sudoku.solvedPuzzle)
     # Converting puzzle information to json
     board = [[0 for _ in range(9)] for _ in range(9)]
     for i in range(9):
         for j in range(9):
             board[i][j] = sudoku.puzzle.grid[i][j].GetEntry()
+
     # Converting puzzle information to json
     solvedBoard = [[0 for _ in range(9)] for _ in range(9)]
     for i in range(9):
@@ -31,6 +29,12 @@ def get_puzzle(puzzle_id):
         
     return jsonify({'puzzle': board,
                     'solvedPuzzle': solvedBoard})
+
+@app.route('/api/hint', methods=['GET'])
+def getHint():
+    sudoku.GetRandomHint()
+    updateBoard()
+    return get_puzzle(sudoku.puzzle.GetBoardID())
 
 @app.route('/api/update', methods =['POST'])
 def updateBoard():
