@@ -3,9 +3,9 @@ import React from 'react';
 const DifficultySelector = ({ onDifficultyChange }) => {
   return (
     <select onChange={(e) => onDifficultyChange(e.target.value)} className="difficulty-selector">
-      <option value="easy">Easy</option>
-      <option value="medium">Medium</option>
-      <option value="hard">Hard</option>
+      <option value="Easy">Easy</option>
+      <option value="Medium">Medium</option>
+      <option value="Hard">Hard</option>
     </select>
   );
 };
