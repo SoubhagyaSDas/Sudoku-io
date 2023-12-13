@@ -16,9 +16,9 @@ def save_to_database(sudoku: Puzzle()):
     puzzle_ref = db.collection('puzzles')
 
 
-    board = [[0 for _ in range(9)] for _ in range(9)]
-    for i in range(9):
-        for j in range(9):
+    board = [[0 for _ in range(sudoku.GetBoardSize())] for _ in range(sudoku.GetBoardSize())]
+    for i in range(sudoku.GetBoardSize()):
+        for j in range(sudoku.GetBoardSize()):
             board[i][j] = sudoku.grid[i][j].GetEntry()
     # Create an empty board to convert list of Cells to firestore format
     firestore_board = {}
