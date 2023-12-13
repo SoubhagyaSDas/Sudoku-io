@@ -73,7 +73,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
         solved_data = puzzle_data['solvedBoard'] #Store the solved board
 
         #convert the firestore board to a 2D List of the numbers
-        board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, size+1)] for i in range(1, size+1)]
         #Set the grid to the cells
         sudoku.grid = [[Cell() for _ in range(size)] for _ in range(size)]
         # Fill the cells with number
@@ -82,7 +82,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
                 sudoku.grid[i][j].SetEntry(board[i][j])
 
         # Store the
-        solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+        solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, size+1)] for i in range(1, size+1)]
         #Set the grid to the cells
         sudokuSol.grid = [[Cell() for _ in range(size)] for _ in range(size)]
         # Fill the cells with number
