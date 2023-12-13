@@ -103,6 +103,53 @@ def update(new_board: list, sudoku: Puzzle()):
     # Store the updated board to firestore
     puzzle_ref.document(str(sudoku.GetBoardID())).update({'board': firestore_board})
     # ... (other methods remain unchanged from the representations.py file)
+
+def load(difficulty, sudoku: Puzzle(), sudokuSol: Puzzle()):
+    # Get total count
+    doc_id = db.collection('puzzles').document("count") #Read from collection of puzzle count
+    get_count = doc_id.get(field_paths={"puzzleCount"}).to_dict()#Store puzzle count
+    count = get_count.get("puzzleCount") #Add 1 to puzzle count
+
+    boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
+    # Loop through the database
+    for boardID in range(count):
+        doc_ref = boardDocs.document(str(boardID)).get()# Reference to the specific puzzle document
+        # If puzzle exists
+        if doc_ref.exists:
+            puzzle_data = doc_ref.to_dict() #Store puzzle data
+            # If the puzzle matches the chosen difficulty retrieve it
+            if puzzle_data['size'] == 9 and puzzle_data['difficulty'] == difficulty:
+                size = puzzle_data['size']
+                sudoku.SetDifficulty(puzzle_data['difficulty'])#Set puzzle difficulty to stored
+                sudoku.SetBoardID(boardID)
+                sudoku.SetBoardSize(size)#Set puzzle size to stored
+                board_data = puzzle_data['board'] #Set board  to stored
+                solved_data = puzzle_data['solvedBoard'] #Store the solved board
+
+                #convert the firestore board to a 2D List of the numbers
+                board = [[board_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+                #Set the grid to the cells
+                sudoku.grid = [[Cell() for _ in range(size)] for _ in range(size)]
+                # Fill the cells with number
+                for i in range(size):
+                    for j in range(size):
+                        sudoku.grid[i][j].SetEntry(board[i][j])
+
+                # Store the
+                solved = [[solved_data[f'row{i}'][f'col{j}'] for j in range(1, 10)] for i in range(1, 10)]
+                #Set the grid to the cells
+                sudokuSol.grid = [[Cell() for _ in range(size)] for _ in range(size)]
+                # Fill the cells with number
+                for i in range(size):
+                    for j in range(size):
+                        sudokuSol.grid[i][j].SetEntry(solved[i][j])
+                break
+        else:
+            print("Does not work")
+
+
+
+
 import sqlite3
 import json
 
