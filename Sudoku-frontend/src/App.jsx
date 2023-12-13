@@ -90,7 +90,7 @@ function App() {
             <div className="col-lg-7 col-md-12 col-12">
               <div className='game-board'>
                 {/* Pass Hint Click to the board */}
-                <Board hintRequested={hintRequested} setHintRequested={setHintRequested} selectedDifficulty={{selectedDifficulty}}/>
+                <Board hintRequested={hintRequested} setHintRequested={setHintRequested} selectedDifficulty={selectedDifficulty}/>
               </div>
             </div>
             <div className="col-lg-5 col-md-12 col-12 number-div">

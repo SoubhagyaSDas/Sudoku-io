@@ -26,11 +26,11 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
         setBoard(filteredBoard);
         setSolved(data.solvedPuzzle);
       } catch (error){
-        console.error("Error fetching", error)
+        console.error("Error fetching", error);
       }
     }
     
-    const url = "http://127.0.0.1:5000/api/load_puzzle" + selectedDifficulty;
+    const url = "http://127.0.0.1:5000/api/load_puzzle/" + selectedDifficulty;
     initializeBoardFromFile(url);
   }, [selectedDifficulty]);
 
