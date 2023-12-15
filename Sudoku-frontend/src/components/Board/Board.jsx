@@ -90,26 +90,41 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
   }, [hintRequested, hintFound, setHintRequested]);
   
 
-
-  const handleCellChange = (x, y, value) => {
-    setBoard(prevBoard => {
-      const newBoard = prevBoard.map((row, rowIndex) =>
-      rowIndex === x ? row.map((cell, cellIndex) =>
-        cellIndex === y ? value : cell
-      ) : row
+#By Nashrah
+  
+const handleCellChange = (x, y, value) => {
+  setBoard((prevBoard) => {
+    const newBoard = prevBoard.map((row, rowIndex) =>
+      rowIndex === x
+        ? row.map((cell, cellIndex) =>
+            cellIndex === y && sudoku.puzzle.grid[x][y].IsMutable()
+              ? value === 'erase'
+                ? 0
+                : value
+              : cell
+          )
+        : row
     );
-    //Convert the new changed board in a 2d grid
-    const backBoard = Array.from(newBoard.values()).map((row) => row.map(Number));
-    // Compare inputted cell to correct cell in solved Board
-    const isCorrect = JSON.stringify(backBoard[x][y]) === JSON.stringify(solved[x][y]);
-    // If the cell input is correct update database
-    if(isCorrect){
-      axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard})
-    }
-      return newBoard;
 
+    // Convert the new changed board into a 2D grid
+    const backBoard = Array.from(newBoard.values()).map((row) =>
+      row.map(Number)
+    );
+
+    // Compare inputted cell to the correct cell in the solved Board
+    const isCorrect =
+      value === 'erase' ||
+      JSON.stringify(backBoard[x][y]) === JSON.stringify(solved[x][y]);
+
+    // If the cell input is correct or the erase button is clicked, update the database
+    if (isCorrect) {
+      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
+    }
+
+    return newBoard;
   });
-  };
+};
+
 
   const handleCellSelect = (x, y) => {
     setSelectedCell({ x, y });
