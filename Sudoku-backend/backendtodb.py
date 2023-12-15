@@ -92,6 +92,7 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
     else:
         print("Does not work")
 
+#By Nashrah
 def update(new_board: list, sudoku: Puzzle):
     # Connect to puzzle storage doc
     puzzle_ref = db.collection('puzzles')
