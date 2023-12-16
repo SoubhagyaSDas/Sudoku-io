@@ -111,6 +111,9 @@ const handleCellChange = (x, y, value) => {
       row.map(Number)
     );
 
+    // Log the payload to the console
+    console.log('JSON payload:', { puzzle: backBoard });
+
     // Compare inputted cell to the correct cell in the solved Board
     const isCorrect =
       value === 'erase' ||
@@ -118,12 +121,19 @@ const handleCellChange = (x, y, value) => {
 
     // If the cell input is correct or the erase button is clicked, update the database
     if (isCorrect) {
-      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
+      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard })
+        .then(response => {
+          console.log('Server response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error updating board:', error);
+        });
     }
 
     return newBoard;
   });
 };
+
 
 
   const handleCellSelect = (x, y) => {
