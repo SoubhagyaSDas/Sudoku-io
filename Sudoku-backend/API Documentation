@@ -204,3 +204,44 @@
 - `algo (Algorithms)`: The algorithm object used for checking correctness.
 **Returns:** True if the puzzle is correct, False otherwise.  
 **Exceptions:** None  
+
+## History Class
+
+### __init__(self)
+**Description:** Initializes a History object with an empty history stack.  
+**Usage:** `history = History()`  
+**Parameters:** None  
+**Returns:** None  
+**Exceptions:** None  
+
+### AddToHistory(self, entry)
+**Description:** Adds an HxEntry object to the history stack.  
+**Usage:** `history.AddToHistory(hx_entry)`  
+**Parameters:**
+- `entry (HxEntry)`: The HxEntry object to be added to the history.  
+**Returns:** None  
+**Exceptions:** None  
+
+### PopLastMove(self)
+**Description:** Removes and returns the last HxEntry object from the history stack.  
+**Usage:** `last_move = history.PopLastMove()`  
+**Parameters:** None  
+**Returns:** The last HxEntry object in the history.  
+**Exceptions:** None  
+
+### ClearFromHistory(self, cell)
+**Description:** Removes moves related to a specific cell from the history stack.  
+**Usage:** `history.ClearFromHistory(cell)`  
+**Parameters:**
+- `cell (Cell)`: The cell for which moves should be removed from history.  
+**Returns:** None  
+**Exceptions:** None  
+
+### RecreateHistory(self, puzzle, algo)
+**Description:** Reconstructs the history stack based on the provided puzzle and algorithm.  
+**Usage:** `history.RecreateHistory(puzzle, algorithm)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object used to recreate the history.
+- `algo (Algorithms)`: The algorithm object used for checking correctness in recreation.  
+**Returns:** None  
+**Exceptions:** None  
