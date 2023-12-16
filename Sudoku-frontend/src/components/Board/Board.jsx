@@ -97,7 +97,7 @@ const handleCellChange = (x, y, value) => {
     const newBoard = prevBoard.map((row, rowIndex) =>
       rowIndex === x
         ? row.map((cell, cellIndex) =>
-            cellIndex === y && sudoku.puzzle.grid[x][y].IsMutable()
+            cellIndex === y && board[x][y].mutable
               ? value === 'erase'
                 ? 0
                 : value
@@ -107,12 +107,7 @@ const handleCellChange = (x, y, value) => {
     );
 
     // Convert the new changed board into a 2D grid
-    const backBoard = Array.from(newBoard.values()).map((row) =>
-      row.map(Number)
-    );
-
-    // Log the payload to the console
-    console.log('JSON payload:', { puzzle: backBoard });
+    const backBoard = newBoard.map((row) => row.map((cell) => cell.entry));
 
     // Compare inputted cell to the correct cell in the solved Board
     const isCorrect =
@@ -121,18 +116,13 @@ const handleCellChange = (x, y, value) => {
 
     // If the cell input is correct or the erase button is clicked, update the database
     if (isCorrect) {
-      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard })
-        .then(response => {
-          console.log('Server response:', response.data);
-        })
-        .catch(error => {
-          console.error('Error updating board:', error);
-        });
+      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
     }
 
     return newBoard;
   });
 };
+
 
 
 
