@@ -25,8 +25,13 @@ function App() {
 
   // Handle number selection
   const handleNumberSelect = (number) => {
-    // Your logic here
-  };
+  // Check if a cell is selected
+  if (selectedCell.x !== -1 && selectedCell.y !== -1) {
+    // Call the function to update the selected cell with the chosen number
+    handleCellChange(selectedCell.x, selectedCell.y, number);
+  }
+};
+
 
   // Handle theme toggle
   const handleToggleMode = () => {
