@@ -97,31 +97,21 @@ const handleCellChange = (x, y, value) => {
     const newBoard = prevBoard.map((row, rowIndex) =>
       rowIndex === x
         ? row.map((cell, cellIndex) =>
-            cellIndex === y && board[x][y].mutable
-              ? value === 'erase'
-                ? 0
-                : value
-              : cell
+            cellIndex === y ? (value === 'erase' ? 0 : value) : cell
           )
         : row
     );
 
     // Convert the new changed board into a 2D grid
-    const backBoard = newBoard.map((row) => row.map((cell) => cell.entry));
+    const backBoard = newBoard.map((row) => row.map(Number));
 
-    // Compare inputted cell to the correct cell in the solved Board
-    const isCorrect =
-      value === 'erase' ||
-      JSON.stringify(backBoard[x][y]) === JSON.stringify(solved[x][y]);
-
-    // If the cell input is correct or the erase button is clicked, update the database
-    if (isCorrect) {
-      axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
-    }
+    // Update the database with the new board
+    axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
 
     return newBoard;
   });
 };
+
 
 
 
