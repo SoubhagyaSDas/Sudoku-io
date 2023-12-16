@@ -49,16 +49,31 @@ def getHint():
     sudoku.GetRandomHint()
     updateBoard()
     return get_puzzle(sudoku.puzzle.GetBoardID())
-
-@app.route('/api/update', methods =['POST'])
+    
+#Changed update route 
+# Update route
+@app.route('/api/update', methods=['POST'])
 @cross_origin()
 def updateBoard():
-    # Fetch the json of the updated board
+    # Fetch the JSON of the updated board
     data = request.get_json()
     new_board = data.get('puzzle')
-    # Pass new grid and game engine puzzle to the backenddb function
-    update(new_board, sudoku.puzzle)
-    return jsonify({'Message': 'Works'})
+
+    # Check if 'erase' is received, and update the database accordingly
+    if 'erase' in str(new_board):
+        # Handle erase logic (set the corresponding cell to 0 in the database)
+        for i in range(len(new_board)):
+            for j in range(len(new_board[i])):
+                # Check if the cell is mutable (user-input), then set it to 0
+                if sudoku.puzzle.grid[i][j].IsMutable():
+                    sudoku.puzzle.grid[i][j].SetEntry(0)
+        # Save the updated board to the database
+        save_to_database(sudoku.puzzle, sudoku.solvedPuzzle)
+    else:
+        
+        update(new_board, sudoku.puzzle)
+
+    return jsonify({'Message': 'Board updated successfully'})
 
 # Load puzzle by difficulty
 @app.route('/api/load_puzzle/<difficulty>', methods=['GET'])
