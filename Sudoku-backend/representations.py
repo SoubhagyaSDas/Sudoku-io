@@ -9,6 +9,10 @@ class Cell:
         self.notes = [] #list of notes for a single cell
         self.given = False #boolean saying if value is given by computer (initally or by hint) (will be used to determine if cell can be given by a hint) (given=True is a sign of correctness)
 
+    #Checks whether the value in the board was user inputted or not, needed for the erase button
+    def IsMutable(self):
+        return not self.given
+        
     def GetEntry(self):
         return self.cellEntry
     
