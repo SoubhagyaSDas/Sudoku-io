@@ -58,12 +58,6 @@ function App() {
             </div>
             <div>
               <a className='option-click'>
-                <img src={erase} className='option-img'></img>
-                <p className='option-text'>Erase</p>
-              </a>
-            </div>
-            <div>
-              <a className='option-click'>
                 <img src={notes} className='option-img'></img>
                 <p className='option-text'>Notes</p>
               </a>
