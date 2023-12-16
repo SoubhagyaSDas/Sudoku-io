@@ -13,9 +13,11 @@ class Cell:
     def GetEntry(self):
         return self.cellEntry
     
-    def SetEntry(self, entry:int):
+    def SetEntry(self, entry:int, row:int = 0, col:int = 0):
         #if self.given == False:
         self.cellEntry = entry
+        self.row = row
+        self.col = col
 
     def GetSolution(self):
         return self.solution

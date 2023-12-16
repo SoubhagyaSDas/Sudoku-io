@@ -5,7 +5,7 @@ import '../../App.css'; // Corrected import path for App.css
 import NumberPad from '../Controls/NumberPad';
 
 
-const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
+const Board = ({hintRequested, setHintRequested, selectedDifficulty, undoClicked, setUndoClicked}) => {
   // Store the board
   const [board, setBoard] = useState(Array(9).fill(Array(9).fill('')));
   const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
@@ -19,7 +19,6 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
         //get information from json file
         const response = await axios.get(filePath);
         const data = response.data; //store jsondata
-
         //filter so 0 values are empty cells
         const filteredBoard = data.puzzle.map(row =>
           row.map(cell => (cell !== 0 ? cell : ''))
@@ -36,12 +35,16 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
     initializeBoardFromFile(url);
   }, [selectedDifficulty]);
 
-  // Attempt to use backend GetHint. Not working yet
+  useEffect(() => {
+    console.log("Component rendered");
+  }, []);
+
+  // // Attempt to use backend GetHint. Not working yet
   // useEffect(() => {
   //   if(hintRequested && !hintFound){
   //     const randomHint = async (filePath) => {
   //       try{
-  //         console.log(board);
+  //         // console.log(board);
   //         const response = await axios.get(filePath);
   //         const data = response.data; //store jsondata
 
@@ -61,7 +64,7 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
   //     }
   //   setHintFound(false);
   //   setHintRequested(false);
-  // }, []);
+  // }, [hintRequested, hintFound, setHintRequested]);
 
   useEffect(() => {
     // Everytime hint is requested in main App.jsx
@@ -78,7 +81,6 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
             setHintRequested(false);
             return;
           }
-
         }
       }
       // If all cell is fill request is set back to false
@@ -88,35 +90,47 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
     }
     // Set found back to false for the next hint
     setHintFound(false);
-
   }, [hintRequested, hintFound, setHintRequested]);
   
+  useEffect(() => {
+    const undo = async ()=>{
+      // If the undo btn is clicked
+      if(undoClicked){
+        //Fetch the func undoing the move
+        try{
+          const response = await axios.get('http://127.0.0.1:5000/api/undo');
+          const data = response.data; //store jsondata
 
-#By Nashrah
-  
-const handleCellChange = (x, y, value) => {
-  setBoard((prevBoard) => {
-    const newBoard = prevBoard.map((row, rowIndex) =>
-      rowIndex === x
-        ? row.map((cell, cellIndex) =>
-            cellIndex === y ? (value === 'erase' ? 0 : value) : cell
+          //filter so 0 values are empty cells
+          const filteredBoard = data.puzzle.map(row =>
+            row.map(cell => (cell !== 0 ? cell : ''))
           )
-        : row
+          //add the user board as well as the solved one
+          setBoard(filteredBoard);
+        } catch (error){
+          console.error("Error fetching", error);
+        }
+        setUndoClicked(false); //Set the undobutton clicked back to false
+    }
+    };
+    undo();
+  }, [undoClicked, setUndoClicked]);
+
+// By Nashrah
+  const handleCellChange = (x, y, value) => {
+    setBoard(prevBoard => {
+      const newBoard = prevBoard.map((row, rowIndex) =>
+      rowIndex === x ? row.map((cell, cellIndex) =>
+        cellIndex === y ? value : cell
+      ) : row
     );
-
-    // Convert the new changed board into a 2D grid
-    const backBoard = newBoard.map((row) => row.map(Number));
-
-    // Update the database with the new board
-    axios.post('http://127.0.0.1:5000/api/update', { puzzle: backBoard });
-
-    return newBoard;
-  });
-};
-
-
-
-
+    //Convert the new changed board in a 2d grid
+    const backBoard = Array.from(newBoard.values()).map((row) => row.map(Number));
+    
+    axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard, new: backBoard[x][y], row: x, col: y})
+      return newBoard;
+    });
+  };
 
   const handleCellSelect = (x, y) => {
     setSelectedCell({ x, y });

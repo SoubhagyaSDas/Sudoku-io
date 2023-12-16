@@ -124,15 +124,16 @@ def update(new_board: list, sudoku: Puzzle):
         puzzle_ref.document(str(sudoku.GetBoardID())).update({'board': firestore_board})
 
 
+
 def load(difficulty, sudoku: Puzzle(), sudokuSol: Puzzle()):
     # Get total count
     doc_id = db.collection('puzzles').document("count") #Read from collection of puzzle count
     get_count = doc_id.get(field_paths={"puzzleCount"}).to_dict()#Store puzzle count
-    count = get_count.get("puzzleCount") #Add 1 to puzzle count
+    count = get_count.get("puzzleCount")
 
     boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
     # Loop through the database
-    for boardID in range(count):
+    for boardID in range(1,count):
         doc_ref = boardDocs.document(str(boardID)).get()# Reference to the specific puzzle document
         # If puzzle exists
         if doc_ref.exists:
@@ -166,79 +167,3 @@ def load(difficulty, sudoku: Puzzle(), sudokuSol: Puzzle()):
                 break
         else:
             print("Does not work")
-
-
-
-
-import sqlite3
-import json
-
-class HxEntry:
-    def __init__(self):
-        self.oldCell = Cell
-        self.newCell = Cell
-        self.isCorrect = True
-        self.puzzle = Puzzle
-
-    def save_to_database(self):
-        # Serialize hxentry data to JSON
-        serialized_data = json.dumps({
-            "OldCell": {"Row": self.oldCell.GetRow(), "Col": self.oldCell.GetCol()},
-            "NewCell": {"Row": self.newCell.GetRow(), "Col": self.newCell.GetCol()},
-            "IsCorrect": self.isCorrect,
-            "PuzzleID": self.puzzle.get_puzzle_id()
-        })
-
-        # Save hxentry data to the database
-        connection = sqlite3.connect("sudoku.db")
-        cursor = connection.cursor()
-        cursor.execute('''
-            INSERT INTO "HxEntries" ("Data") VALUES (?)
-        ''', (serialized_data,))
-        connection.commit()
-        connection.close()
-
-    # ... (other methods remain unchanged)
-
-class History:
-    def __init__(self):
-        self.history = []
-
-    def save_to_database(self):
-        # Save history data to the database
-        connection = sqlite3.connect("sudoku.db")
-        cursor = connection.cursor()
-        
-        for entry in self.history:
-            entry.save_to_database()
-        
-        connection.commit()
-        connection.close()
-
-    # ... (other methods remain unchanged)
-
-class Algorithms:
-    def __init__(self) -> None:
-        self.rand = []
-    # ... (other methods remain unchanged)
-
-class GameEngine:
-    def __init__(self):
-        self.puzzle = Puzzle()
-        self.currentValue = 0
-        self.history = History()
-        self.algo = Algorithms()
-
-    def save_to_database(self):
-        # Save game engine data to the database
-        connection = sqlite3.connect("sudoku.db")
-        cursor = connection.cursor()
-        
-        self.puzzle.save_to_database()
-        self.history.save_to_database()
-        
-        connection.commit()
-        connection.close()
-
-    # ... (other methods remain unchanged)
-

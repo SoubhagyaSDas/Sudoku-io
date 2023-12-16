@@ -16,6 +16,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(true); // State to handle theme
   const [hintRequested, setHintRequested] = useState(false); // State to track if hint is requested
   const [selectedDifficulty, setSelectedDifficulty] = useState('Easy');// Sate to track difficulty
+  const [undoClicked, setUndoClicked] = useState(false);// Sate to track if erase is clicked
+
 
   // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
@@ -23,26 +25,33 @@ function App() {
     setSelectedDifficulty(difficulty);
   };
 
+  // handle hint button click
+  const handleHintButtonClick = () => {
+    // Set the hintRequested state to true
+    setHintRequested(true);
+  };
+
+  // Handle erase button clicked
+  const handleUndoClicked = () => {
+    // Your logic here
+    setUndoClicked(true);
+  };  
+
   // Handle number selection
   const handleNumberSelect = (number) => {
-  // Check if a cell is selected
-  if (selectedCell.x !== -1 && selectedCell.y !== -1) {
-    // Call the function to update the selected cell with the chosen number
-    handleCellChange(selectedCell.x, selectedCell.y, number);
-  }
-};
-
+    // Check if a cell is selected
+    // if (selectedCell.x !== -1 && selectedCell.y !== -1) {
+    //   // Call the function to update the selected cell with the chosen number
+    //   handleCellChange(selectedCell.x, selectedCell.y, number);
+    // }
+  };
 
   // Handle theme toggle
   const handleToggleMode = () => {
     setDarkMode(!darkMode); // Toggle the theme state
   };
 
-    // handle hint button click
-    const handleHintButtonClick = () => {
-      // Set the hintRequested state to true
-      setHintRequested(true);
-    };
+  
 
   // Conditional class assignment based on the theme state
   const themeClass = darkMode ? 'dark-mode' : 'light-mode';
@@ -68,7 +77,7 @@ function App() {
               </a>
             </div>
             <div>
-              <a className='option-click'>
+              <a className='option-click' onClick={handleUndoClicked}>
                 <img src={undo} className='option-img'></img>
                 <p className='option-text'>Undo</p>
               </a>
@@ -89,7 +98,13 @@ function App() {
             <div className="col-lg-7 col-md-12 col-12">
               <div className='game-board'>
                 {/* Pass Hint Click to the board */}
-                <Board hintRequested={hintRequested} setHintRequested={setHintRequested} selectedDifficulty={selectedDifficulty}/>
+                <Board 
+                  hintRequested={hintRequested} 
+                  setHintRequested={setHintRequested} 
+                  selectedDifficulty={selectedDifficulty}
+                  undoClicked={undoClicked}
+                  setUndoClicked={setUndoClicked}
+                />
               </div>
             </div>
             <div className="col-lg-5 col-md-12 col-12 number-div">
