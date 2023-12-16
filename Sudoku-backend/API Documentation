@@ -81,3 +81,98 @@
 **Parameters:** None  
 **Returns:** None  
 **Exceptions:** None  
+
+## Puzzle Class
+
+### __init__(self)
+**Description:** Initializes a Sudoku puzzle with default values.  
+**Usage:** `puzzle = Puzzle()`  
+**Parameters:** None  
+**Returns:** None  
+**Exceptions:** None  
+
+### GetBoardSize(self)
+**Description:** Retrieves the size of the puzzle board.  
+**Usage:** `size = puzzle.GetBoardSize()`  
+**Parameters:** None  
+**Returns:** The size of the puzzle board.  
+**Exceptions:** None  
+
+### SetBoardSize(self, size: int)
+**Description:** Sets the size of the puzzle board.  
+**Usage:** `puzzle.SetBoardSize(9)`  
+**Parameters:**
+- `size (int)`: The size of the puzzle board (e.g., 9 representing a 9x9 puzzle).  
+**Returns:** None  
+**Exceptions:** None  
+
+### GetValue(self, row, col)
+**Description:** Retrieves the value of a cell in the puzzle.  
+**Usage:** `value = puzzle.GetValue(1, 2)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.  
+**Returns:** The value of the specified cell.  
+**Exceptions:** None  
+
+### SetCell(self, row, col, value)
+**Description:** Sets the value of a cell in the puzzle.  
+**Usage:** `puzzle.SetCell(1, 2, 5)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.
+- `value (int)`: The value to be set for the cell.  
+**Returns:** True if the cell was successfully set, False otherwise.  
+**Exceptions:** None  
+
+### GetCell(self, row, col)
+**Description:** Retrieves a cell object from the puzzle.  
+**Usage:** `cell = puzzle.GetCell(1, 2)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.  
+**Returns:** The cell object at the specified position.  
+**Exceptions:** None  
+
+### GetNotes(self, row, col)
+**Description:** Retrieves the list of notes for a cell in the puzzle.  
+**Usage:** `notes = puzzle.GetNotes(1, 2)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.  
+**Returns:** The list of notes for the specified cell.  
+**Exceptions:** None  
+
+### SetNotes(self, row, col, note)
+**Description:** Sets the list of notes for a cell in the puzzle.  
+**Usage:** `puzzle.SetNotes(1, 2, 5)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.
+- `note (int)`: The note value to be added to the current notes for the cell.  
+**Returns:** None  
+**Exceptions:** None  
+
+### GetDifficulty(self)
+**Description:** Retrieves the difficulty level of the puzzle.  
+**Usage:** `difficulty = puzzle.GetDifficulty()`  
+**Parameters:** None  
+**Returns:** The difficulty level of the puzzle.  
+**Exceptions:** None  
+
+### SetDifficulty(self, difficulty)
+**Description:** Sets the difficulty level of the puzzle.  
+**Usage:** `puzzle.SetDifficulty("Medium")`  
+**Parameters:**
+- `difficulty (str)`: The difficulty level of the puzzle.  
+**Returns:** None  
+**Exceptions:** None  
+
+### ResetCell(self, row, col)
+**Description:** Clears the value of a cell in the puzzle.  
+**Usage:** `puzzle.ResetCell(1, 2)`  
+**Parameters:**
+- `row (int)`: The row index of the cell.
+- `col (int)`: The column index of the cell.  
+**Returns:** None  
+**Exceptions:** None  
