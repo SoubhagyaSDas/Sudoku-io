@@ -310,3 +310,69 @@
 **Returns:**
 - `empty_cells (List[{"row":row,"col": col}])`: List of empty cells by row and column.  
 **Exceptions:** None  
+
+## Game Engine Class
+
+### __init__(self)
+**Description:** Initializes a GameEngine object.  
+**Usage:** `game_engine = GameEngine()`  
+**Parameters:** None  
+**Returns:** None  
+**Exceptions:** None  
+
+### Undo(self)
+**Description:** Undoes the last move in the game history.  
+**Usage:** `last_move = game_engine.Undo()`  
+**Parameters:** None  
+**Returns:**
+- `last_move (HxEntry or None)`: The last move that was undone, or None if no moves are available in the history.  
+**Exceptions:** None  
+
+### UndoUntilCorrect(self)
+**Description:** Undoes moves until a correct state of the game is reached.  
+**Usage:** `moves_to_undo = game_engine.UndoUntilCorrect()`  
+**Parameters:** None  
+**Returns:**
+- `moves_to_undo (List[HxEntry])`: List of moves undone until correct state is reached.  
+**Exceptions:** None  
+
+### GetCurrentValue(self)
+**Description:** Gets the current value in the game.  
+**Usage:** `current_value = game_engine.GetCurrentValue()`  
+**Parameters:** None  
+**Returns:**
+- `current_value (int)`: The current value in the game.  
+**Exceptions:** None  
+
+### SetCurrentValue(self, val)
+**Description:** Sets the current value being played in the game.  
+**Usage:** `game_engine.SetCurrentValue(4)`  
+**Parameters:**
+- `val (int)`: The value to set as the current value in the game.  
+**Returns:** None  
+**Exceptions:** None  
+
+### GetRandomHint(self)
+**Description:** Gets a random hint for the game.  
+**Usage:** `hint = game_engine.GetRandomHint()`  
+**Parameters:** None  
+**Returns:**
+- `hint (Tuple[int, int, int] or None)`: A tuple containing row, column, and solution, or None if the puzzle is already solved.  
+**Exceptions:** None  
+
+### GetSpecificHint(self, row, col)
+**Description:** Gets a specific hint for the game at the given row and column.  
+**Usage:** `hint = game_engine.GetSpecificHint(2, 3)`  
+**Parameters:**
+- `row (int)`: The row index.
+- `col (int)`: The column index.  
+**Returns:**
+- `hint (Tuple[int, int, int] or None)`: A tuple containing row, column, and solution, or None if the cell is hardwired.  
+**Exceptions:** None  
+
+### CallCheckCorrectnessOfPuzzle(self)
+**Description:** Calls the check correctness function for the puzzle.  
+**Usage:** `game_engine.CallCheckCorrectnessOfPuzzle()`  
+**Parameters:** None  
+**Returns:** None  
+**Exceptions:** None  
