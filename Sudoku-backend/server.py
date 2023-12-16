@@ -22,26 +22,32 @@ sudoku = GameEngine()
 def generate_sudoku():
     save_to_database(sudoku.puzzle, sudoku.solvedPuzzle)
 
-# Load puzzle by ID
+#By Nashrah
 @app.route('/api/get_puzzle/<puzzle_id>', methods=['GET'])
 @cross_origin()
 def get_puzzle(puzzle_id):
     # load the puzzles into the user board and another used to verify
     load_from_database(puzzle_id, sudoku.puzzle, sudoku.solvedPuzzle)
-    # Converting puzzle information to json
-    board = [[0 for _ in range(9)] for _ in range(9)]
-    for i in range(9):
-        for j in range(9):
-            board[i][j] = sudoku.puzzle.grid[i][j].GetEntry()
 
-    # Converting puzzle information to json
+    # Converting puzzle information to JSON
+    board = []
+    for i in range(9):
+        row = []
+        for j in range(9):
+            entry = sudoku.puzzle.grid[i][j].GetEntry()
+            mutable = sudoku.puzzle.grid[i][j].IsMutable()
+            row.append({'entry': entry, 'mutable': mutable})
+        board.append(row)
+
+    # Converting puzzle information to JSON
     solvedBoard = [[0 for _ in range(9)] for _ in range(9)]
     for i in range(9):
         for j in range(9):
             solvedBoard[i][j] = sudoku.solvedPuzzle.grid[i][j].GetEntry()
-        
+
     return jsonify({'puzzle': board,
                     'solvedPuzzle': solvedBoard})
+
 
 @app.route('/api/hint', methods=['GET'])
 @cross_origin()
