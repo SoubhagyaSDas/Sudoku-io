@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; //npm i axios
 import Cell from './Cell';
 import '../../App.css'; // Corrected import path for App.css
+import NumberPad from '../Controls/NumberPad';
+
 
 const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
   // Store the board
@@ -131,7 +133,11 @@ const handleCellChange = (x, y, value) => {
        Math.floor(selectedCell.y / 3) === Math.floor(y / 3))
     );
   };
-
+ const handleNumberSelect = (number) => {
+    if (selectedCell.x !== -1 && selectedCell.y !== -1) {
+      handleCellChange(selectedCell.x, selectedCell.y, number);
+    }
+  };
   return (
     <div className="board">
       {board.map((row, x) => (
@@ -150,6 +156,7 @@ const handleCellChange = (x, y, value) => {
           ))}
         </div>
       ))}
+      <NumberPad onNumberSelect={handleNumberSelect} />
     </div>
   );
 };
