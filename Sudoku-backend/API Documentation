@@ -176,3 +176,31 @@
 - `col (int)`: The column index of the cell.  
 **Returns:** None  
 **Exceptions:** None  
+
+## HxEntry Class
+
+### __init__(self)
+**Description:** Initializes an HxEntry object with default values.  
+**Usage:** `hx_entry = HxEntry()`  
+**Parameters:** None  
+**Returns:** None  
+**Exceptions:** None  
+
+### CreateEntry(self, old, new, status)
+**Description:** Creates an HxEntry with the specified old and new cells and status.  
+**Usage:** `hx_entry.CreateEntry(old_cell, new_cell, True)`  
+**Parameters:**
+- `old (Cell)`: The old cell.
+- `new (Cell)`: The new cell.
+- `status (bool)`: The status indicating puzzle correctness.
+**Returns:** None  
+**Exceptions:** None  
+
+### IsCorrect(self, puzzle, algo)
+**Description:** Checks the correctness of the puzzle using the provided algorithm.  
+**Usage:** `correctness = hx_entry.IsCorrect(puzzle, algorithm)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.
+- `algo (Algorithms)`: The algorithm object used for checking correctness.
+**Returns:** True if the puzzle is correct, False otherwise.  
+**Exceptions:** None  
