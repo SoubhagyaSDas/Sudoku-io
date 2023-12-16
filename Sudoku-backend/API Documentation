@@ -245,3 +245,68 @@
 - `algo (Algorithms)`: The algorithm object used for checking correctness in recreation.  
 **Returns:** None  
 **Exceptions:** None  
+
+## Algorithms Class
+
+### CheckCorrectnessOfPuzzle(self, puzzle, history)
+**Description:** Checks the correctness of the puzzle and identifies wrong and right cells.  
+**Usage:** `wrong_cells, right_cells = algo.CheckCorrectnessOfPuzzle(puzzle, history)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.
+- `history (History)`: The history object to be considered in the check.  
+**Returns:**
+- `wrong_cells (List[{"row":row,"col": col}])`: List of cells by row and column with incorrect values.
+- `right_cells (List[{"row":row,"col": col}])`: List of cells by row and column with correct values.  
+**Exceptions:** None  
+
+### CheckCorrectnessOfPuzzleForHistory(self, puzzle)
+**Description:** Checks the correctness of the puzzle for the history creation and recreation process.  
+**Usage:** `correctness = algo.CheckCorrectnessOfPuzzleForHistory(puzzle)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.  
+**Returns:**
+- `True`: if the puzzle is correct.
+- `"Game Won!"`: if the game is won.
+- `False`: otherwise.  
+**Exceptions:** None  
+
+### IsValidMove(self, puzzle, row, col, num)
+**Description:** Checks if placing a number at the given position is a valid move.  
+**Usage:** `valid_move = algo.IsValidMove(puzzle, row, col, num)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object.
+- `row (int)`: The row index.
+- `col (int)`: The column index.
+- `num (int)`: The number to be placed.  
+**Returns:**
+- `True`: if the move is valid.
+- `False`: otherwise.  
+**Exceptions:** None  
+
+### SolvePuzzle(self, puzzle)
+**Description:** Solves the Sudoku puzzle using a recursive backtracking algorithm.  
+**Usage:** `solution_found = algo.SolvePuzzle(puzzle)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object to be solved.  
+**Returns:**
+- `True`: if the puzzle is solved successfully.
+- `False`: otherwise.  
+**Exceptions:** None  
+
+### FindAllErrors(self, puzzle)
+**Description:** Finds all cells with conflicting values in the puzzle.  
+**Usage:** `errors = algo.FindAllErrors(puzzle)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object.  
+**Returns:**
+- `errors (List[{"row":row,"col": col}])`: List of cells by row and column with conflicting values.  
+**Exceptions:** None  
+
+### FindAllEmpty(self, puzzle)
+**Description:** Finds all empty cells in the puzzle.  
+**Usage:** `empty_cells = algo.FindAllEmpty(puzzle)`  
+**Parameters:**
+- `puzzle (Puzzle)`: The puzzle object.  
+**Returns:**
+- `empty_cells (List[{"row":row,"col": col}])`: List of empty cells by row and column.  
+**Exceptions:** None  
