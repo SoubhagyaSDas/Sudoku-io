@@ -18,9 +18,11 @@ Testing results in backend-test-log.txt (full printed output for test.py and tes
 Compiled design and testing documentation in GitHub (storyboards, use case diagram, class diagram, project plan, testing plan, and testing results).
 
 Soubhagya:
-Designed the Board layout using photoshop and figma
-Structured the frontend to follow the design layout
-Made the intial board components using react
+Designed the Board layout using photoshop and figma.
+Structured the frontend to follow the design layout.
+Made the intial board components using react and made the controllers for the board operations using react.
+Wrote App.jsx, App.css and controls.css with the help of Manali.
+Made the controllers communicate with eachother in the frontend side. 
 
 Sadaat:
 
