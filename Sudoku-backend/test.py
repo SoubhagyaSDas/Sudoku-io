@@ -1,4 +1,4 @@
-#full test.py completed by Andrew and Nashrah
+#full test.py completed by Andrew
 #see commented out lines and print statements for documentation
 
 import representations as r

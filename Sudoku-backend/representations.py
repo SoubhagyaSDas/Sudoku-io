@@ -9,15 +9,12 @@ class Cell:
         self.notes = [] #list of notes for a single cell
         self.given = False #boolean saying if value is given by computer (initally or by hint) (will be used to determine if cell can be given by a hint) (given=True is a sign of correctness)
 
-        
     def GetEntry(self):
         return self.cellEntry
     
-    def SetEntry(self, entry:int, row:int = 0, col:int = 0):
+    def SetEntry(self, entry:int):
         #if self.given == False:
         self.cellEntry = entry
-        self.row = row
-        self.col = col
 
     def GetSolution(self):
         return self.solution

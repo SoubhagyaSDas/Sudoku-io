@@ -1,378 +1,339 @@
-##API Documentation for Backend by Nashrah
+#API Documentation by Nashrah
+Cell Class
 
-## Cell Class
+__init__(self)
+Description: Initializes a cell with default values.
+Usage: cell = Cell()
+Parameters: None
+Returns: None
+Exceptions: None
+GetEntry(self)
+Description: Retrieves the value of the cell.
+Usage:entry = cell.GetEntry()
+Parameters: None
+Returns: The value of the cell.
+Exceptions: None
+SetEntry(self, entry:int)
+Description: Sets the value of the cell.
+Usage: cell.SetEntry(5)
+Parameters:
+entry (int): The value to be set for the cell.
+Returns: None
+Exceptions: None
+GetSolution(self)
+Description: Retrieves the solution value of the cell.
+Usage: solution = cell.GetSolution()
+Parameters: None
+Returns: The solution value of the cell.
+Exceptions: None
 
-### __init__(self)
-**Description:** Initializes a cell with default values.  
-**Usage:** `cell = Cell()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
 
-### GetEntry(self)
-**Description:** Retrieves the value of the cell.  
-**Usage:** `entry = cell.GetEntry()`  
-**Parameters:** None  
-**Returns:** The value of the cell.  
-**Exceptions:** None  
+SetSolution(self, answer:int)
+Description: Sets the solution value of the cell.
+Usage: cell.SetSolution(3)
+Parameters: answer (int): The solution value to be set for the cell.
+Returns: None
+Exceptions: None
+GetNotes(self)
+Description: Retrieves the list of notes for the cell.
+Usage:notes = cell.GetNotes()
+Parameters: None
+Returns: The list of notes for the cell.
+Exceptions: None
+SetNotes(self, notes:[])
+Description: Sets the list of notes for the cell.
+Usage: cell.SetNotes(["note1", "note2"])
+Parameters:
+notes ([]): The list of notes to be set for the cell.
+Returns: None
+Exceptions: None
+GetRow(self)
+Description: Retrieves the row index of the cell.
+Usage: row = cell.GetRow()
+Parameters: None
+Returns: The row index of the cell.
+Exceptions: None
+GetCol(self)
+Description: Retrieves the column index of the cell.
+Usage: col = cell.GetCol()
+Parameters: None
+Returns: The column index of the cell.
+Exceptions: None
 
-### SetEntry(self, entry: int)
-**Description:** Sets the value of the cell.  
-**Usage:** `cell.SetEntry(5)`  
-**Parameters:**
-- `entry (int)`: The value to be set for the cell.  
-**Returns:** None  
-**Exceptions:** None  
+Clear(self)
+Description: Clears the value of the cell.
+Usage: cell.Clear()
+Parameters: None
+Returns: None
+Exceptions: None
+SetGiven(self)
+Description: Sets the given attribute of the cell to True.
+Usage: cell.SetGiven()
+Parameters: None
+Returns: None
+Exceptions: None
 
-### GetSolution(self)
-**Description:** Retrieves the solution value of the cell.  
-**Usage:** `solution = cell.GetSolution()`  
-**Parameters:** None  
-**Returns:** The solution value of the cell.  
-**Exceptions:** None  
 
-### SetSolution(self, answer: int)
-**Description:** Sets the solution value of the cell.  
-**Usage:** `cell.SetSolution(3)`  
-**Parameters:**
-- `answer (int)`: The solution value to be set for the cell.  
-**Returns:** None  
-**Exceptions:** None  
+Puzzle Class
 
-### GetNotes(self)
-**Description:** Retrieves the list of notes for the cell.  
-**Usage:** `notes = cell.GetNotes()`  
-**Parameters:** None  
-**Returns:** The list of notes for the cell.  
-**Exceptions:** None  
+__init__(self)
+Description: Initializes a Sudoku puzzle with default values.
+Usage: puzzle = Puzzle()
+Parameters: None
+Returns: None
+Exceptions: None
+GetBoardSize(self)
+Description: Retrieves the size of the puzzle board.
+Usage:size = puzzle.GetBoardSize()
+Parameters: None
+Returns: The size of the puzzle board.
+Exceptions: None
+SetBoardSize(self, size: str)
+Description: Sets the size of the puzzle board.
+Usage: puzzle.SetBoardSize(9)
+Parameters: size (str): The size of the puzzle board (e.g., "9").
+Returns: None
+Exceptions: None
+GetValue(self, row, col)
+Description: Retrieves the value of a cell in the puzzle.
+Usage: value = puzzle.GetValue(1, 2)
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+Returns: The value of the specified cell.
+Exceptions: None
+SetCell(self, row, col, value)
+Description: Sets the value of a cell in the puzzle.
+Usage:puzzle.SetCell(1, 2, 5)
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+value (int): The value to be set for the cell.
+Returns: True if the cell was successfully set, False otherwise.
+Exceptions: None
+GetCell(self, row, col)
+Description: Retrieves a cell object from the puzzle.
+Usage: cell = puzzle.GetCell(1, 2)
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+Returns: The cell object at the specified position.
+Exceptions: None
+GetNotes(self, row, col)
+Description: Retrieves the list of notes for a cell in the puzzle.
+Usage: notes = puzzle.GetNotes(1, 2)
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+Returns: The list of notes for the specified cell.
+Exceptions: None
+SetNotes(self, row, col, notes)
+Description: Sets the list of notes for a cell in the puzzle.
+Usage: puzzle.SetNotes(1, 2, ["note1", "note2"])
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+notes ([]): The list of notes to be set for the cell.
+Returns: None
+Exceptions: None
+GetDifficulty(self)
+Description: Retrieves the difficulty level of the puzzle.
+Usage: difficulty = puzzle.GetDifficulty()
+Parameters: None
+Returns: The difficulty level of the puzzle.
+Exceptions: None
+SetDifficulty(self, difficulty)
+Description: Sets the difficulty level of the puzzle.
+Usagepuzzle.SetDifficulty("Medium")
+Parameters: difficulty (str): The difficulty level of the puzzle.
+Returns: None
+Exceptions: None
+ResetCell(self, row, col)
+Description: Clears the value of a cell in the puzzle.
+Usage: puzzle.ResetCell(1, 2)
+Parameters:
+row (int): The row index of the cell.
+col (int): The column index of the cell.
+Returns: None
+Exceptions: None
 
-### SetNotes(self, note: int)
-**Description:** Appends note to the existing list of notes or removes note if it already exists.  
-**Usage:** `cell.SetNotes(7)`  
-**Parameters:**
-- `note (int)`: The note value the user wants for the given cell.  
-**Returns:** None  
-**Exceptions:** None  
 
-### GetRow(self)
-**Description:** Retrieves the row index of the cell.  
-**Usage:** `row = cell.GetRow()`  
-**Parameters:** None  
-**Returns:** The row index of the cell.  
-**Exceptions:** None  
+HxEntry Class
 
-### GetCol(self)
-**Description:** Retrieves the column index of the cell.  
-**Usage:** `col = cell.GetCol()`  
-**Parameters:** None  
-**Returns:** The column index of the cell.  
-**Exceptions:** None  
+__init__(self)
+Description: Initializes an HxEntry object with default values.
+Usage: hx_entry = HxEntry()
+Parameters: None
+Returns: None
+Exceptions: None
+CreateEntry(self, old, new, status)
+Description: Creates an HxEntry with the specified old and new cells and status.
+Usage:hx_entry.CreateEntry(old_cell, new_cell, True)
+Parameters:
+old (Cell): The old cell.
+new (Cell): The new cell.
+status (bool): The status indicating correctness.
+Returns: None
+Exceptions: None
+IsCorrect(self, puzzle, algo)
+Description: Checks the correctness of the puzzle using the provided algorithm.
+Usage:correctness = hx_entry.IsCorrect(puzzle, algorithm)
+Parameters:
+puzzle (Puzzle): The puzzle object to be checked for correctness.
+algo (Algorithms): The algorithm object used for checking correctness.
+Returns: True if the puzzle is correct, False otherwise.
+Exceptions: None
 
-### Clear(self)
-**Description:** Clears the value of the cell.  
-**Usage:** `cell.Clear()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
+History Class
 
-### SetGiven(self)
-**Description:** Sets the given attribute of the cell to True.  
-**Usage:** `cell.SetGiven()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
+__init__(self)
+Description: Initializes a History object with an empty history list.
+Usage: history = History()
+Parameters: None
+Returns: None
+Exceptions: None
+AddToHistory(self, entry)
+Description: Adds an HxEntry object to the history list.
+Usage:history.AddToHistory(hx_entry)
+Parameters:
+entry (HxEntry): The HxEntry object to be added to the history.
+Returns: None
+Exceptions: None
+PopLastMove(self)
+Description: Removes and returns the last HxEntry object from the history list.
+Usage:last_move = history.PopLastMove()
+Parameters: None
+Returns: The last HxEntry object in the history.
+Exceptions: None
+ClearFromHistory(self, cell)
+Description: Removes moves related to a specific cell from the history list.
+Usage:history.ClearFromHistory(cell)
+Parameters:
+cell (Cell): The cell for which moves should be removed from history.
+Returns: None
+Exceptions: None
 
-## Puzzle Class
+RecreateHistory(self, puzzle, algo)
+Description: Reconstructs the history list based on the provided puzzle and algorithm.
+Usage: history.RecreateHistory(puzzle, algorithm)
+Parameters:
+puzzle (Puzzle): The puzzle object used to recreate the history.
+algo (Algorithms): The algorithm object used for checking correctness in recreation.
+Returns: None
+Exceptions: None
 
-### __init__(self)
-**Description:** Initializes a Sudoku puzzle with default values.  
-**Usage:** `puzzle = Puzzle()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
+Algorithm Class
 
-### GetBoardSize(self)
-**Description:** Retrieves the size of the puzzle board.  
-**Usage:** `size = puzzle.GetBoardSize()`  
-**Parameters:** None  
-**Returns:** The size of the puzzle board.  
-**Exceptions:** None  
+CheckCorrectnessOfPuzzle(self, puzzle, history)
+Description: Checks the correctness of the puzzle and identifies wrong and right cells.
+Usage:wrong_cells, right_cells = algo.CheckCorrectnessOfPuzzle(puzzle, history)
+Parameters:
+puzzle (Puzzle): The puzzle object to be checked for correctness.
+history (History): The history object to be considered in the check.
+Returns:
+wrong_cells (List[Cell]): List of cells with incorrect values.
+right_cells (List[Cell]): List of cells with correct values.
+Exceptions: None
+CheckCorrectnessOfPuzzleForHistory(self, puzzle)
+Description: Checks the correctness of the puzzle for the history recreation process.
+Usage:correctness = algo.CheckCorrectnessOfPuzzleForHistory(puzzle)
+Parameters:
+puzzle (Puzzle): The puzzle object to be checked for correctness.
+Returns:
+True if the puzzle is correct, "Game Won!" if the game is won, False otherwise.
+Exceptions: None
+IsValidMove(self, puzzle, row, col, num)
+Description: Checks if placing a number at the given position is a valid move.
+Usage: valid_move = algo.IsValidMove(puzzle, row, col, num)
+Parameters:
+puzzle (Puzzle): The puzzle object.
+row (int): The row index.
+col (int): The column index.
+num (int): The number to be placed.
+Returns:
+True if the move is valid, False otherwise.
+Exceptions: None
+SolvePuzzle(self, puzzle)
+Description: Solves the Sudoku puzzle using a recursive backtracking algorithm.
+Usage: solution_found = algo.SolvePuzzle(puzzle)
+Parameters:
+puzzle (Puzzle): The puzzle object to be solved.
+Returns:
+True if the puzzle is solved successfully, False otherwise.
+Exceptions: None
+FindAllErrors(self, puzzle)
+Description: Finds all cells with conflicting values in the puzzle.
+Usage: errors = algo.FindAllErrors(puzzle)
+Parameters:
+puzzle (Puzzle): The puzzle object.
+Returns:
+errors (List[Cell]): List of cells with conflicting values.
+Exceptions: None
+FindAllEmpty(self, puzzle)
+Description: Finds all empty cells in the puzzle.
+Usage: empty_cells = algo.FindAllEmpty(puzzle)
+Parameters:
+puzzle (Puzzle): The puzzle object.
+Returns:
+empty_cells (List[Cell]): List of empty cells.
+Exceptions: None
 
-### SetBoardSize(self, size: int)
-**Description:** Sets the size of the puzzle board.  
-**Usage:** `puzzle.SetBoardSize(9)`  
-**Parameters:**
-- `size (int)`: The size of the puzzle board (e.g., 9 representing a 9x9 puzzle).  
-**Returns:** None  
-**Exceptions:** None  
 
-### GetValue(self, row, col)
-**Description:** Retrieves the value of a cell in the puzzle.  
-**Usage:** `value = puzzle.GetValue(1, 2)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.  
-**Returns:** The value of the specified cell.  
-**Exceptions:** None  
+Game Engine Class
 
-### SetCell(self, row, col, value)
-**Description:** Sets the value of a cell in the puzzle.  
-**Usage:** `puzzle.SetCell(1, 2, 5)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.
-- `value (int)`: The value to be set for the cell.  
-**Returns:** True if the cell was successfully set, False otherwise.  
-**Exceptions:** None  
-
-### GetCell(self, row, col)
-**Description:** Retrieves a cell object from the puzzle.  
-**Usage:** `cell = puzzle.GetCell(1, 2)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.  
-**Returns:** The cell object at the specified position.  
-**Exceptions:** None  
-
-### GetNotes(self, row, col)
-**Description:** Retrieves the list of notes for a cell in the puzzle.  
-**Usage:** `notes = puzzle.GetNotes(1, 2)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.  
-**Returns:** The list of notes for the specified cell.  
-**Exceptions:** None  
-
-### SetNotes(self, row, col, note)
-**Description:** Sets the list of notes for a cell in the puzzle.  
-**Usage:** `puzzle.SetNotes(1, 2, 5)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.
-- `note (int)`: The note value to be added to the current notes for the cell.  
-**Returns:** None  
-**Exceptions:** None  
-
-### GetDifficulty(self)
-**Description:** Retrieves the difficulty level of the puzzle.  
-**Usage:** `difficulty = puzzle.GetDifficulty()`  
-**Parameters:** None  
-**Returns:** The difficulty level of the puzzle.  
-**Exceptions:** None  
-
-### SetDifficulty(self, difficulty)
-**Description:** Sets the difficulty level of the puzzle.  
-**Usage:** `puzzle.SetDifficulty("Medium")`  
-**Parameters:**
-- `difficulty (str)`: The difficulty level of the puzzle.  
-**Returns:** None  
-**Exceptions:** None  
-
-### ResetCell(self, row, col)
-**Description:** Clears the value of a cell in the puzzle.  
-**Usage:** `puzzle.ResetCell(1, 2)`  
-**Parameters:**
-- `row (int)`: The row index of the cell.
-- `col (int)`: The column index of the cell.  
-**Returns:** None  
-**Exceptions:** None  
-
-## HxEntry Class
-
-### __init__(self)
-**Description:** Initializes an HxEntry object with default values.  
-**Usage:** `hx_entry = HxEntry()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
-
-### CreateEntry(self, old, new, status)
-**Description:** Creates an HxEntry with the specified old and new cells and status.  
-**Usage:** `hx_entry.CreateEntry(old_cell, new_cell, True)`  
-**Parameters:**
-- `old (Cell)`: The old cell.
-- `new (Cell)`: The new cell.
-- `status (bool)`: The status indicating puzzle correctness.
-**Returns:** None  
-**Exceptions:** None  
-
-### IsCorrect(self, puzzle, algo)
-**Description:** Checks the correctness of the puzzle using the provided algorithm.  
-**Usage:** `correctness = hx_entry.IsCorrect(puzzle, algorithm)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.
-- `algo (Algorithms)`: The algorithm object used for checking correctness.
-**Returns:** True if the puzzle is correct, False otherwise.  
-**Exceptions:** None  
-
-## History Class
-
-### __init__(self)
-**Description:** Initializes a History object with an empty history stack.  
-**Usage:** `history = History()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
-
-### AddToHistory(self, entry)
-**Description:** Adds an HxEntry object to the history stack.  
-**Usage:** `history.AddToHistory(hx_entry)`  
-**Parameters:**
-- `entry (HxEntry)`: The HxEntry object to be added to the history.  
-**Returns:** None  
-**Exceptions:** None  
-
-### PopLastMove(self)
-**Description:** Removes and returns the last HxEntry object from the history stack.  
-**Usage:** `last_move = history.PopLastMove()`  
-**Parameters:** None  
-**Returns:** The last HxEntry object in the history.  
-**Exceptions:** None  
-
-### ClearFromHistory(self, cell)
-**Description:** Removes moves related to a specific cell from the history stack.  
-**Usage:** `history.ClearFromHistory(cell)`  
-**Parameters:**
-- `cell (Cell)`: The cell for which moves should be removed from history.  
-**Returns:** None  
-**Exceptions:** None  
-
-### RecreateHistory(self, puzzle, algo)
-**Description:** Reconstructs the history stack based on the provided puzzle and algorithm.  
-**Usage:** `history.RecreateHistory(puzzle, algorithm)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object used to recreate the history.
-- `algo (Algorithms)`: The algorithm object used for checking correctness in recreation.  
-**Returns:** None  
-**Exceptions:** None  
-
-## Algorithms Class
-
-### CheckCorrectnessOfPuzzle(self, puzzle, history)
-**Description:** Checks the correctness of the puzzle and identifies wrong and right cells.  
-**Usage:** `wrong_cells, right_cells = algo.CheckCorrectnessOfPuzzle(puzzle, history)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.
-- `history (History)`: The history object to be considered in the check.  
-**Returns:**
-- `wrong_cells (List[{"row":row,"col": col}])`: List of cells by row and column with incorrect values.
-- `right_cells (List[{"row":row,"col": col}])`: List of cells by row and column with correct values.  
-**Exceptions:** None  
-
-### CheckCorrectnessOfPuzzleForHistory(self, puzzle)
-**Description:** Checks the correctness of the puzzle for the history creation and recreation process.  
-**Usage:** `correctness = algo.CheckCorrectnessOfPuzzleForHistory(puzzle)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object to be checked for correctness.  
-**Returns:**
-- `True`: if the puzzle is correct.
-- `"Game Won!"`: if the game is won.
-- `False`: otherwise.  
-**Exceptions:** None  
-
-### IsValidMove(self, puzzle, row, col, num)
-**Description:** Checks if placing a number at the given position is a valid move.  
-**Usage:** `valid_move = algo.IsValidMove(puzzle, row, col, num)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object.
-- `row (int)`: The row index.
-- `col (int)`: The column index.
-- `num (int)`: The number to be placed.  
-**Returns:**
-- `True`: if the move is valid.
-- `False`: otherwise.  
-**Exceptions:** None  
-
-### SolvePuzzle(self, puzzle)
-**Description:** Solves the Sudoku puzzle using a recursive backtracking algorithm.  
-**Usage:** `solution_found = algo.SolvePuzzle(puzzle)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object to be solved.  
-**Returns:**
-- `True`: if the puzzle is solved successfully.
-- `False`: otherwise.  
-**Exceptions:** None  
-
-### FindAllErrors(self, puzzle)
-**Description:** Finds all cells with conflicting values in the puzzle.  
-**Usage:** `errors = algo.FindAllErrors(puzzle)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object.  
-**Returns:**
-- `errors (List[{"row":row,"col": col}])`: List of cells by row and column with conflicting values.  
-**Exceptions:** None  
-
-### FindAllEmpty(self, puzzle)
-**Description:** Finds all empty cells in the puzzle.  
-**Usage:** `empty_cells = algo.FindAllEmpty(puzzle)`  
-**Parameters:**
-- `puzzle (Puzzle)`: The puzzle object.  
-**Returns:**
-- `empty_cells (List[{"row":row,"col": col}])`: List of empty cells by row and column.  
-**Exceptions:** None  
-
-## Game Engine Class
-
-### __init__(self)
-**Description:** Initializes a GameEngine object.  
-**Usage:** `game_engine = GameEngine()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
-
-### Undo(self)
-**Description:** Undoes the last move in the game history.  
-**Usage:** `last_move = game_engine.Undo()`  
-**Parameters:** None  
-**Returns:**
-- `last_move (HxEntry or None)`: The last move that was undone, or None if no moves are available in the history.  
-**Exceptions:** None  
-
-### UndoUntilCorrect(self)
-**Description:** Undoes moves until a correct state of the game is reached.  
-**Usage:** `moves_to_undo = game_engine.UndoUntilCorrect()`  
-**Parameters:** None  
-**Returns:**
-- `moves_to_undo (List[HxEntry])`: List of moves undone until correct state is reached.  
-**Exceptions:** None  
-
-### GetCurrentValue(self)
-**Description:** Gets the current value in the game.  
-**Usage:** `current_value = game_engine.GetCurrentValue()`  
-**Parameters:** None  
-**Returns:**
-- `current_value (int)`: The current value in the game.  
-**Exceptions:** None  
-
-### SetCurrentValue(self, val)
-**Description:** Sets the current value being played in the game.  
-**Usage:** `game_engine.SetCurrentValue(4)`  
-**Parameters:**
-- `val (int)`: The value to set as the current value in the game.  
-**Returns:** None  
-**Exceptions:** None  
-
-### GetRandomHint(self)
-**Description:** Gets a random hint for the game.  
-**Usage:** `hint = game_engine.GetRandomHint()`  
-**Parameters:** None  
-**Returns:**
-- `hint (Tuple[int, int, int] or None)`: A tuple containing row, column, and solution, or None if the puzzle is already solved.  
-**Exceptions:** None  
-
-### GetSpecificHint(self, row, col)
-**Description:** Gets a specific hint for the game at the given row and column.  
-**Usage:** `hint = game_engine.GetSpecificHint(2, 3)`  
-**Parameters:**
-- `row (int)`: The row index.
-- `col (int)`: The column index.  
-**Returns:**
-- `hint (Tuple[int, int, int] or None)`: A tuple containing row, column, and solution, or None if the cell is hardwired.  
-**Exceptions:** None  
-
-### CallCheckCorrectnessOfPuzzle(self)
-**Description:** Calls the check correctness function for the puzzle.  
-**Usage:** `game_engine.CallCheckCorrectnessOfPuzzle()`  
-**Parameters:** None  
-**Returns:** None  
-**Exceptions:** None  
+__init__(self)
+Description: Initializes a GameEngine object.
+Usage: game_engine = GameEngine()
+Parameters: None
+Returns: None
+Exceptions: None
+Undo(self)
+Description: Undoes the last move in the game history.
+Usage:last_move = game_engine.Undo()
+Parameters: None
+Returns:
+last_move (HxEntry or None): The last move that was undone, or None if no moves are available in the history.
+Exceptions: None
+UndoUntilCorrect(self)
+Description: Undoes moves until a correct move is reached in the game history.
+Usage: moves_to_undo = game_engine.UndoUntilCorrect()
+Parameters: None
+Returns:
+moves_to_undo (List[HxEntry]): List of moves undone until a correct move is reached.
+Exceptions: None
+GetCurrentValue(self)
+Description: Gets the current value in the game.
+Usage: current_value = game_engine.GetCurrentValue()
+Parameters: None
+Returns:
+current_value (int): The current value in the game.
+Exceptions: None
+SetCurrentValue(self, val)
+Description: Sets the current value in the game.
+Usage: game_engine.SetCurrentValue(42)
+Parameters:
+val (int): The value to set as the current value in the game.
+Returns: None
+Exceptions: None
+GetRandomHint(self)
+Description: Gets a random hint for the game.
+Usage: hint = game_engine.GetRandomHint()
+Parameters: None
+Returns:
+hint (Tuple[int, int, int] or None): A tuple containing row, column, and solution, or None if the puzzle is already solved.
+Exceptions: None
+GetSpecificHint(self, row, col)
+Description: Gets a specific hint for the game at the given row and column.
+Usage:hint = game_engine.GetSpecificHint(2, 3)
+Parameters:
+row (int): The row index.
+col (int): The column index.
+Returns:
+hint (Tuple[int, int, int] or None): A tuple containing row, column, and solution, or None if the cell is hardwired.
+Exceptions: None
+CallCheckCorrectnessOfPuzzle(self)
+Description: Calls the check correctness function for the puzzle.
+Usage:game_engine.CallCheckCorrectnessOfPuzzle()
+Parameters: None
+Returns: None
+Exceptions: None
