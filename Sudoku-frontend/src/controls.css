@@ -30,6 +30,16 @@
   cursor: pointer;
 }
 
+/* Difficulty Selector Styles */
+.board-selector {
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 /* Number Pad Styles */
 .number-pad {
   display: flex;

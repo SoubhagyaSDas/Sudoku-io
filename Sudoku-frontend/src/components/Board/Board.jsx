@@ -31,17 +31,17 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
         console.error("Error fetching", error);
       }
     }
-    
+
     const url = "http://127.0.0.1:5000/api/load_board?difficulty=" + selectedDifficulty + "&size=" + Number(selectedBoard);
     initializeBoardFromFile(url);
   }, [selectedDifficulty, selectedBoard]);
 
-  // Attempt to use backend GetHint. Not working yet
+  // // Attempt to use backend GetHint. Not working yet
   // useEffect(() => {
   //   if(hintRequested && !hintFound){
   //     const randomHint = async (filePath) => {
   //       try{
-  //         console.log(board);
+  //         // console.log(board);
   //         const response = await axios.get(filePath);
   //         const data = response.data; //store jsondata
 
@@ -61,7 +61,7 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
   //     }
   //   setHintFound(false);
   //   setHintRequested(false);
-  // }, []);
+  // }, [hintRequested, hintFound, setHintRequested]);
 
   useEffect(() => {
     // Everytime hint is requested in main App.jsx
@@ -113,7 +113,7 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
     undo();
   }, [undoClicked, setUndoClicked]);
 
-    useEffect(() => {
+  useEffect(() => {
     const undoUntil = async ()=>{
       // If the undo btn is clicked
       if(undoUntilCorrect){
@@ -136,7 +136,8 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
     };
     undoUntil();
   }, [undoUntilCorrect, setUndoUntilCorrect]);
-  
+
+// By Nashrah
   const handleCellChange = (x, y, value) => {
     setBoard(prevBoard => {
       const newBoard = prevBoard.map((row, rowIndex) =>
@@ -146,10 +147,10 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
     );
     //Convert the new changed board in a 2d grid
     const backBoard = Array.from(newBoard.values()).map((row) => row.map(Number));
-
+    
     axios.post('http://127.0.0.1:5000/api/update/', {puzzle: backBoard, new: backBoard[x][y], row: x, col: y})
-    return newBoard;
-  });
+      return newBoard;
+    });
   };
 
   const handleCellSelect = (x, y) => {
@@ -163,17 +164,16 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
   const isSameRowOrColumnOrBox = (x, y) => {
     return (
       selectedCell.x === x || selectedCell.y === y ||
-      (Math.floor(selectedCell.x / Math.sqrt(Number(selectedBoard))) === Math.floor(x / Math.sqrt(Number(selectedBoard))) &&
-       Math.floor(selectedCell.y / Math.sqrt(Number(selectedBoard))) === Math.floor(y / Math.sqrt(Number(selectedBoard))))
+      (Math.floor(selectedCell.x / Math.sqrt(Number(selectedBoard))) === Math.floor(x / Math.sqrt(Number(selectedBoard))) && 
+      Math.floor(selectedCell.y / Math.sqrt(Number(selectedBoard))) === Math.floor(y / Math.sqrt(Number(selectedBoard))))
     );
   };
-
-  const handleNumberSelect = (number) => {
+ const handleNumberSelect = (number) => {
     if (selectedCell.x !== -1 && selectedCell.y !== -1) {
       handleCellChange(selectedCell.x, selectedCell.y, number);
     }
   };
-
+  
   return (
     <div className="board">
       {board.map((row, x) => (
@@ -192,6 +192,7 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
           ))}
         </div>
       ))}
+      {/* <NumberPad onNumberSelect={handleNumberSelect} /> */}
     </div>
   );
 };

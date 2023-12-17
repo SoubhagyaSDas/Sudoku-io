@@ -90,6 +90,16 @@
   font-weight: bolder;
 }
 
+.board-selector{
+  color:green;
+  margin-top: 15px;
+  margin-left: 15px;
+  background-color: #000000;
+  border: none;
+  border-radius: 15px;
+  font-weight: bolder;
+}
+
 .timer{
   background-color: transparent;
   border: none;

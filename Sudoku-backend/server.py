@@ -1,24 +1,24 @@
 from flask import Flask, request, jsonify #pip install flask
 from flask_cors import CORS, cross_origin #pip install flask_cors
-from representations import GameEngine, Cell, Puzzle, HxEntry
+from representations import GameEngine, HxEntry, Cell, Puzzle
 from backendtodb import load_from_database, save_to_database, update, load
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins="http://127.0.0.1:5173/")
 sudoku = GameEngine()
 
 def convertGridToBoard(board: list, puzzle: Puzzle()):
-    size = puzzle.GetBoardSize()
+    size = sudoku.puzzle.GetBoardSize()
     for row in range(size):
         board.append([puzzle.grid[row][col].GetEntry() for col in range(size)])
     return board
 
-@app.route('/api/get_puzzle/<puzzle_id>', methods=['POST'])
+@app.route('/api/get_puzzle/<puzzle_id>/', methods=['POST'])
 @cross_origin()
 def generate_sudoku():
     save_to_database(sudoku.puzzle, sudoku.solvedPuzzle)
 
-# Load puzzle by ID
+#By Nashrah
 @app.route('/api/get_puzzle/<puzzle_id>/', methods=['GET'])
 @cross_origin()
 def get_puzzle(puzzle_id):
@@ -103,11 +103,12 @@ def UndoUntilCorrect():
             sudoku.puzzle.grid[row][col].SetEntry(board[row][col])
         update(board, sudoku.puzzle)
     return jsonify({'puzzle': board})
-
+            
 # Load puzzle by difficulty
-@app.route('/api/load_puzzle/<difficulty>', methods=['GET'])
+@app.route('/api/load_puzzle/<difficulty>/', methods=['GET'])
 @cross_origin()
 def load_puzzle(difficulty):
+
     # load the puzzles into the user board and another used to verify
     load(difficulty, sudoku.puzzle, sudoku.solvedPuzzle)
     # Converting puzzle information to json
@@ -126,7 +127,6 @@ def load_board():
     size = request.args.get('size', type=int, default=9)
     # load the puzzles into the user board and another used to verify
     load(difficulty, size, sudoku.puzzle, sudoku.solvedPuzzle)
-    print(len(sudoku.puzzle.grid[0]))
     # Converting puzzle information to json
     board = convertGridToBoard([], sudoku.puzzle)
     # Converting puzzle information to json

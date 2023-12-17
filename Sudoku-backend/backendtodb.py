@@ -97,7 +97,7 @@ def update(new_board: list, sudoku: Puzzle()):
     #Connects to puzzle storage doc
     puzzle_ref = db.collection('puzzles')
 
-    # Convert updated  board to firestore format
+    # Convert updated board to firestore format
     firestore_board = {}
     for i, row in enumerate(new_board, start=1):
         firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
@@ -108,11 +108,11 @@ def load(difficulty, sudoku: Puzzle(), sudokuSol: Puzzle()):
     # Get total count
     doc_id = db.collection('puzzles').document("count") #Read from collection of puzzle count
     get_count = doc_id.get(field_paths={"puzzleCount"}).to_dict()#Store puzzle count
-    count = get_count.get("puzzleCount") #Add 1 to puzzle count
+    count = get_count.get("puzzleCount")
 
     boardDocs = db.collection("puzzles")#Connects to puzzle storage doc
     # Loop through the database
-    for boardID in range(1, count):
+    for boardID in range(1,count):
         doc_ref = boardDocs.document(str(boardID)).get()# Reference to the specific puzzle document
         # If puzzle exists
         if doc_ref.exists:
