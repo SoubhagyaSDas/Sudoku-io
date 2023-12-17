@@ -44,9 +44,27 @@ Welcome to our project repository! This document outlines the individual contrib
 - Collaborated with Soubhagya in refining the frontend aesthetics and functionality.
 - Added buttons for puzzle verification and interaction, enhancing user experience.
 
+### Amit:
+- Played a pivotal role in enhancing the project's UI/UX design.
+- Worked closely with Soubhagya and Manali in refining the frontend interface.
+- Contributed to the functionality and aesthetic appeal of the board and controllers.
+- Actively involved in the iterative design and testing phases, ensuring a seamless user experience.
+
+### Mohamed:
+- Focused on improving the project's responsive design elements.
+- Collaborated with Soubhagya in the design phase, offering critical insights.
+- Assisted in the testing of frontend components, ensuring optimal functionality.
+- Contributed to refining the overall user interaction and interface design.
+
+### Michael:
+- Played a key role in the frontend development and design.
+- Worked alongside Soubhagya in the testing phase, ensuring robustness and efficiency.
+- Contributed innovative ideas to enhance the project's visual appeal and user engagement.
+- Actively involved in debugging and refining the frontend components.
+
 ---
 
 Thank you for visiting our project repository. We hope you find our contributions and collaborative efforts as exciting as we do! For any queries or feedback, please feel free to reach out to us.
 
-Best Regards,  
+Best Regards,
 Team 60th Street
