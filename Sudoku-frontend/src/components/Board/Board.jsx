@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; //npm i axios
+import axios from 'axios'; 
 import Cell from './Cell';
-import '../../App.css'; // Corrected import path for App.css
-/*start : code added by manali */
+import '../../App.css'; 
+// update made by Sou
+// start : code added by manali 
 const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequested, undoClicked, setUndoClicked, undoUntilCorrect, setUndoUntilCorrect}) => {
   // Store the board
   const [board, setBoard] = useState(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
