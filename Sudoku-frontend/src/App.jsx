@@ -10,6 +10,7 @@ import hint from "./assets/hint.png";
 import notes from "./assets/notes.png";
 import erase from "./assets/erase.png";
 import undo from "./assets/undo.png";
+import check from "./assets/check.svg";
 import Grid from './components/Controls/Grid';
 
 function App() {
@@ -77,6 +78,12 @@ function App() {
               <a className='option-click'>
                 <img src={undo} className='option-img'></img>
                 <p className='option-text'>Undo</p>
+              </a>
+            </div>
+            <div>
+              <a className='option-click'>
+                <img src={check} className='option-img'></img>
+                <p className='option-text'>Submit</p>
               </a>
             </div>
           </div>
