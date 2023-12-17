@@ -5,7 +5,7 @@ import '../../App.css'; // Corrected import path for App.css
 import NumberPad from '../Controls/NumberPad';
 
 
-const Board = ({hintRequested, setHintRequested, selectedDifficulty, undoClicked, setUndoClicked}) => {
+const Board = ({hintRequested, setHintRequested, selectedDifficulty, undoClicked, setUndoClicked, undoUntilCorrect, setUndoUntilCorrect}) => {
   // Store the board
   const [board, setBoard] = useState(Array(9).fill(Array(9).fill('')));
   const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
@@ -115,6 +115,30 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty, undoClicked
     };
     undo();
   }, [undoClicked, setUndoClicked]);
+
+  useEffect(() => {
+    const undoUntil = async ()=>{
+      // If the undo btn is clicked
+      if(undoUntilCorrect){
+        //Fetch the func undoing the move
+        try{
+          const response = await axios.get('http://127.0.0.1:5000/api/undoUntilCorrect');
+          const data = response.data; //store jsondata
+
+          //filter so 0 values are empty cells
+          const filteredBoard = data.puzzle.map(row =>
+            row.map(cell => (cell !== 0 ? cell : ''))
+          )
+          //add the user board as well as the solved one
+          setBoard(filteredBoard);
+        } catch (error){
+          console.error("Error fetching", error);
+        }
+        setUndoUntilCorrect(false); //Set the undobutton clicked back to false
+    }
+    };
+    undoUntil();
+  }, [undoUntilCorrect, setUndoUntilCorrect]);
 
 // By Nashrah
   const handleCellChange = (x, y, value) => {

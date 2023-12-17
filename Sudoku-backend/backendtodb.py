@@ -93,8 +93,8 @@ def load_from_database(puzzle_id, sudoku: Puzzle(), sudokuSol: Puzzle()):
         print("Does not work")
 
 #By Nashrah
-def update(new_board: list, sudoku: Puzzle):
-    # Connect to puzzle storage doc
+def update(new_board: list, sudoku: Puzzle()):
+    #Connects to puzzle storage doc
     puzzle_ref = db.collection('puzzles')
 
     # Check if 'erase' is received

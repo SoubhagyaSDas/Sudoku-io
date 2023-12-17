@@ -8,7 +8,7 @@ import './App.css';
 import logo from "./assets/logo.png";
 import hint from "./assets/hint.jpeg";
 import notes from "./assets/notes.jpg";
-import erase from "./assets/erase.jpeg";
+import check from "./assets/correct.jpeg";
 import undo from "./assets/undo.jpg";
 
 
@@ -17,7 +17,7 @@ function App() {
   const [hintRequested, setHintRequested] = useState(false); // State to track if hint is requested
   const [selectedDifficulty, setSelectedDifficulty] = useState('Easy');// Sate to track difficulty
   const [undoClicked, setUndoClicked] = useState(false);// Sate to track if erase is clicked
-
+  const [undoUntilCorrect, setUndoUntilCorrect] = useState(false);// Sate to track if check is clicked
 
   // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
@@ -35,6 +35,12 @@ function App() {
   const handleUndoClicked = () => {
     // Your logic here
     setUndoClicked(true);
+  };  
+
+   // Handle erase button clicked
+   const handleUndoUntilCorrect = () => {
+    // Your logic here
+    setUndoUntilCorrect(true);
   };  
 
   // Handle number selection
@@ -82,6 +88,12 @@ function App() {
                 <p className='option-text'>Undo</p>
               </a>
             </div>
+            <div>
+              <a className='option-click' onClick={handleUndoUntilCorrect}>
+                <img src={check} className='option-img'></img>
+                <p className='option-text'>Undo Until Correct</p>
+              </a>
+            </div>
           </div>
 
         </div>
@@ -104,6 +116,8 @@ function App() {
                   selectedDifficulty={selectedDifficulty}
                   undoClicked={undoClicked}
                   setUndoClicked={setUndoClicked}
+                  undoUntilCorrect={undoUntilCorrect}
+                  setUndoUntilCorrect={setUndoUntilCorrect}
                 />
               </div>
             </div>
