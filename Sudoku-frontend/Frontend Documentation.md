@@ -1,6 +1,6 @@
 # Sudoku Web Application Frontend Documentation
 
-Overview
+## Overview
 
 This document outlines the structure and styling of the frontend components for the Sudoku web application. The application provides a user-friendly interface for playing Sudoku, offering various board sizes and difficulty levels.
 
