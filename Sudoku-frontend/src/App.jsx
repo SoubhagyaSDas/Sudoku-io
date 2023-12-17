@@ -10,7 +10,7 @@ import hint from "./assets/hint.png";
 import notes from "./assets/notes.png";
 import erase from "./assets/erase.png";
 import undo from "./assets/undo.png";
-import check from "./assets/check.svg";
+import solution from "./assets/solution.svg";
 import Grid from './components/Controls/Grid';
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
             </div>
             <div>
               <a className='option-click'>
-                <img src={check} className='option-img'></img>
+                <img src={solution} className='option-img'></img>
                 <p className='option-text'>Solution</p>
               </a>
             </div>
@@ -106,6 +106,7 @@ function App() {
                 <Board hintRequested={hintRequested} setHintRequested={setHintRequested} selectedDifficulty={selectedDifficulty}/>
               </div>
             </div>
+            {/*ADD CODE FOR SOLUTION COMMUNICATION LIKE THE HINT*/}
             <div className="col-lg-5 col-md-12 col-12 number-div">
               <div className='timer-div'>
                   <Timer />
