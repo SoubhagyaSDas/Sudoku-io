@@ -6,11 +6,11 @@ import Timer from './components/Controls/Timer';
 import ToggleModeButton from './components/Controls/ToggleModeButton';
 import './App.css';
 import logo from "./assets/logo.png";
-import hint from "./assets/hint.jpeg";
-import notes from "./assets/notes.jpg";
-import erase from "./assets/erase.jpeg";
-import undo from "./assets/undo.jpg";
-
+import hint from "./assets/hint.png";
+import notes from "./assets/notes.png";
+import erase from "./assets/erase.png";
+import undo from "./assets/undo.png";
+import Grid from './components/Controls/Grid';
 
 function App() {
   const [darkMode, setDarkMode] = useState(true); // State to handle theme
@@ -33,11 +33,16 @@ function App() {
     setDarkMode(!darkMode); // Toggle the theme state
   };
 
-    // handle hint button click
-    const handleHintButtonClick = () => {
-      // Set the hintRequested state to true
-      setHintRequested(true);
-    };
+  // handle hint button click
+  const handleHintButtonClick = () => {
+    // Set the hintRequested state to true
+    setHintRequested(true);
+  };
+
+  // New handler for board size change
+  const handleBoardSizeChange = (size) => {
+    setBoardSize(size);
+  };
 
   // Conditional class assignment based on the theme state
   const themeClass = darkMode ? 'dark-mode' : 'light-mode';
@@ -53,7 +58,7 @@ function App() {
             <div>
               <a className='option-click' onClick={handleHintButtonClick}>
                 <img src={hint} className='option-img'></img>
-                <p className='option-text'>Hints</p>
+                <p className='option-text'>Hint</p>
               </a>
             </div>
             <div>
@@ -81,6 +86,7 @@ function App() {
           <div className="row">
             <div className="col-12">
               <DifficultySelector onDifficultyChange={handleDifficultyChange} />
+              <Grid onGridSizeChange={handleBoardSizeChange} />
               <div className='float-right mt-3 mr-3'>
                 <ToggleModeButton onToggle={handleToggleMode} />
               </div>

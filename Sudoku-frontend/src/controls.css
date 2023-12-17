@@ -9,6 +9,17 @@
   padding: 10px;
 }
 
+/* New styles for the grid-selector dropdown */
+.grid-selector {
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  padding: 115px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 100px; /* 10px away to the right from the difficulty selector */
+}
+
 /* Difficulty Selector Styles */
 .difficulty-selector {
   background-color: #f0f0f0;
