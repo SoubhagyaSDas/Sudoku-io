@@ -41,6 +41,8 @@ This Sudoku Web App is built using Flask. To run the application, ensure you hav
 
 ```bash
 pip install Flask
+pip install Flask_cors
+pip install firestore_admin
 
 After installing Flask, navigate to the Sudoku-backend folder and run the following commands to start the Flask app:
 
