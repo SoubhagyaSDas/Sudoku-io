@@ -1,0 +1,25 @@
+Individual Contributions Described:
+
+Nashrah H: 
+Wrote the algorithms.py file in the backend folder.
+Tested the representation.py file(All the backend code), for component and unit testing with Andrew. Files in the backend folder: test.py and backend-unit-testing.txt
+Wrote the API documentation for the backend logic.Files: API Documentation in the backend folder.
+Wrote the API documentation for the API routes from the backend. File: APIDoc-BackendtoDB
+For frontend: Fixed the timer and added a pause button.
+Tried to fix the erase button functionality
+
+Andrew:
+Compiled all the backend logic in representations.py
+Wrote code for representation.py
+Tested 4x4 puzzle: File in backend test4x4.py
+Tested the representation.py file(All the backend code), for component and unit testing with Nashrah. Files in the backend folder: test.py and backend-unit-testing.txt
+Wrote backend-test-log.txt in the backend folder.
+
+Sadaat:
+Created the database
+Handled communication between backend and database.
+Handled communication between frontend and backend for: undo, undo until correct, ..
+
+Soubhagya:
+
+Manali: 
