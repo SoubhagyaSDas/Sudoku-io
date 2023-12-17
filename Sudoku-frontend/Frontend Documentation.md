@@ -72,7 +72,3 @@ The `App` component renders a control panel at the top, allowing users to select
 ## Responsive Design
 
 The application is designed to be responsive, adapting to various screen sizes and orientations. Flexbox is used extensively in the layout to ensure components are aligned and distributed evenly.
-
----
-
-This documentation provides an overview of the frontend structure and should be updated as the application evolves. For more detailed information on individual components or specific implementation details, refer to the source code and inline comments.
