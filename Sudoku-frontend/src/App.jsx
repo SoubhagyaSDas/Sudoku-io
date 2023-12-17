@@ -11,8 +11,9 @@ import hint from "./assets/hint.png";
 import notes from "./assets/notes.png";
 import check from "./assets/correct.jpeg";
 import undo from "./assets/undo.png";
+import solution from "./assets/solution.svg";
 
-
+/*start : code added by manali */
 function App() {
   const [darkMode, setDarkMode] = useState(true); // State to handle theme
   const [hintRequested, setHintRequested] = useState(false); // State to track if hint is requested
@@ -53,19 +54,20 @@ function App() {
   };  
 
   const handleNumberSelect = (number) => {
-    // Update the selected cell with the chosen number
-    setSelectedCell((prevSelectedCell) => ({
-      x: prevSelectedCell.x,
-      y: prevSelectedCell.y,
-      number: number,
-    }));
-  };
+    if (selectedCell.x != null && selectedCell.y != null) {
+      handleCellChange(selectedCell.x, selectedCell.y, number.toString());
+    }
+  };  
+  
 
   // Handle theme toggle
   const handleToggleMode = () => {
     setDarkMode(!darkMode); // Toggle the theme state
   };
 
+  const checkSolution = () => {
+
+  };
   
 
   // Conditional class assignment based on the theme state
@@ -103,6 +105,12 @@ function App() {
                 <p className='option-text'>Undo Until Correct</p>
               </a>
             </div>
+            <div>
+              <a className='option-click' onClick={checkSolution}>
+                <img src={solution} className='option-img'></img>
+                <p className='option-text'>Solution</p>
+              </a>
+            </div>
           </div>
 
         </div>
@@ -114,10 +122,15 @@ function App() {
               <div className='float-right mt-3 mr-3'>
                 <ToggleModeButton onToggle={handleToggleMode} />
               </div>
+              <div className="col-lg-5 col-md-12 col-12 number-div">
+              <div className='timer-div'>
+                  <Timer />
+              </div>
+            </div>
             </div>
           </div>
           <div className="row board-div">
-            <div className="col-lg-7 col-md-12 col-12">
+            <div className="col-lg-12 col-md-12 col-12">
               <div className='game-board'>
                 {/* Pass Hint Click to the board */}
                 <Board 
@@ -132,11 +145,7 @@ function App() {
                 />
               </div>
             </div>
-            <div className="col-lg-5 col-md-12 col-12 number-div">
-              <div className='timer-div'>
-                  <Timer />
-                </div>
-              <NumberPad onNumberSelect={handleNumberSelect} />
+            <div className="col-lg-7 col-md-12 col-12 number-div">
             </div>
           </div>
         </div>
@@ -144,5 +153,5 @@ function App() {
     </div>
   );
 }
-
+/*end : code added by manali */
 export default App;

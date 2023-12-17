@@ -1,19 +1,17 @@
 import React from 'react';
-
-const NumberPad = ({ onNumberSelect }) => {
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  
+/*start : code added by manali */
+const NumberPad = ({ onSelectNumber }) => {
   return (
     <div className="number-pad">
       <div className='row col-12'>
         {numbers.map((number) => (
-          <button key={number} onClick={() => onNumberSelect(number)}>
-            {number}
-          </button>
-        ))}
-      </div>
+        <button key={number} onClick={() => onNumberSelect(number)}>
+          {number}
+        </button>
+      ))}
+</div>
     </div>
   );
 };
-
+/*end : code added by manali */
 export default NumberPad;

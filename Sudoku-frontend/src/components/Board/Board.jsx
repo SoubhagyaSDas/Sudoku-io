@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; //npm i axios
 import Cell from './Cell';
 import '../../App.css'; // Corrected import path for App.css
-
+/*start : code added by manali */
 const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequested, undoClicked, setUndoClicked, undoUntilCorrect, setUndoUntilCorrect}) => {
   // Store the board
   const [board, setBoard] = useState(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
-  const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
+  const [selectedCell, setSelectedCell] = useState({ x: null, y: null });
   // Store the solved board
   const [solved, setSolved] = useState(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
   const [hintFound, setHintFound] = useState(false); // State to track if a hint is found
@@ -168,14 +168,14 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
       Math.floor(selectedCell.y / Math.sqrt(Number(selectedBoard))) === Math.floor(y / Math.sqrt(Number(selectedBoard))))
     );
   };
- const handleNumberSelect = (number) => {
-    if (selectedCell.x !== -1 && selectedCell.y !== -1) {
-      handleCellChange(selectedCell.x, selectedCell.y, number);
+  const handleNumberSelect = (number) => {
+    if (selectedCell.x != null && selectedCell.y != null) {
+      handleCellChange(selectedCell.x, selectedCell.y, number.toString());
     }
-  };
+  };  
   
   return (
-    <div className="board">
+    <div className={`board ${selectedBoard === '9' ? 'nine-grid' : 'four-grid'}`}>
       {board.map((row, x) => (
         <div key={x} className={`board-row ${x % Math.sqrt(Number(selectedBoard)) === 0 && x !== 0 ? 'thick-top' : ''}`}>
           {row.map((value, y) => (
@@ -192,9 +192,19 @@ const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequest
           ))}
         </div>
       ))}
-      {/* <NumberPad onNumberSelect={handleNumberSelect} /> */}
+      <div className="number-pad">
+      {Array.from({ length: selectedBoard === '9' ? 9 : 4 }, (_, i) => i + 1).map(number => (
+        <button
+          key={number}
+          onClick={() => handleNumberSelect(number)}
+          className="number-button"
+        >
+          {number}
+        </button>
+      ))}
+    </div>
     </div>
   );
 };
-
+/*end : code added by manali */
 export default Board;
