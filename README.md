@@ -16,11 +16,11 @@ The `sudoku-backend` folder contains all the backend logic for our Sudoku Web Ap
 
 ### Frontend
 
-The frontend of our web app is organized into folders containing JSX files. These files collectively form the user interface and functionality of the Sudoku Web App.
+The frontend of our web app is organized into folders containing JSX files, inside `sudoku-frontend`  These files collectively form the user interface and functionality of the Sudoku Web App.
 
 ### Contributions
 
-Details about individual contributions can be found in the main branch of this repository. Please refer to the commit history for a comprehensive overview of the contributions made by each team member.
+Details about individual contributions can be found in the main branch of this repository in the file called: Contributions. Please also refer to the commit history for a comprehensive overview of the contributions made by each team member.
 
 ### Documentation
 
