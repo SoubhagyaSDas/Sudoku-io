@@ -83,7 +83,7 @@ function App() {
             <div>
               <a className='option-click'>
                 <img src={check} className='option-img'></img>
-                <p className='option-text'>Submit</p>
+                <p className='option-text'>Solution</p>
               </a>
             </div>
           </div>
