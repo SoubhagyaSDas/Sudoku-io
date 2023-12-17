@@ -17,9 +17,14 @@ Tested the representations.py file (All the backend code), for component and uni
 Testing results in backend-test-log.txt (full printed output for test.py and test4x4.py) and backend-unit-testing.txt (partial testing results with descriptions of test.py) files in the backend folder.
 Compiled design and testing documentation in GitHub (storyboards, use case diagram, class diagram, project plan, testing plan, and testing results).
 
+Soubhagya:
+Designed the Board layout using photoshop and figma
+Structured the frontend to follow the design layout
+Made the intial board components using react
+
 Sadaat:
 
 
-Soubhagya:
+
 
 Manali: 
