@@ -18,6 +18,8 @@ function App() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('Easy');// Sate to track difficulty
   const [undoClicked, setUndoClicked] = useState(false);// Sate to track if erase is clicked
   const [undoUntilCorrect, setUndoUntilCorrect] = useState(false);// Sate to track if check is clicked
+  const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
+
 
   // Handle difficulty change
   const handleDifficultyChange = (difficulty) => {
@@ -43,14 +45,15 @@ function App() {
     setUndoUntilCorrect(true);
   };  
 
-  // Handle number selection
-  const handleNumberSelect = (number) => {
-    // Check if a cell is selected
-    // if (selectedCell.x !== -1 && selectedCell.y !== -1) {
-    //   // Call the function to update the selected cell with the chosen number
-    //   handleCellChange(selectedCell.x, selectedCell.y, number);
-    // }
-  };
+ const handleNumberSelect = (number) => {
+  // Update the selected cell with the chosen number
+  setSelectedCell((prevSelectedCell) => ({
+    x: prevSelectedCell.x,
+    y: prevSelectedCell.y,
+    number: number,
+  }));
+};
+
 
   // Handle theme toggle
   const handleToggleMode = () => {
