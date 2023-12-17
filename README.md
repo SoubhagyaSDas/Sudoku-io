@@ -21,15 +21,19 @@ The frontend of our web app is organized into folders containing JSX files, insi
 
 Details about individual contributions can be found in the main branch of this repository in the file called: Contributions. Please also refer to the commit history for a comprehensive overview of the contributions made by each team member.
 
-### Documentation
+### Documentation (all found in the Wiki section)
 
-- **Class Diagram:** The class diagram for our project is available in the Wiki section of this repository.
+- **Class Diagram:** The representations of all the classes and their attributes and methods for our project.
   
-- **Storyboards:** You can find the storyboards illustrating the user experience in the Wiki section as well.
+- **Storyboards:** The design we intially came up with and the design we ended up going with to illustrate the user experience.
 
-- **Use Case Diagram:** You can find the use case diagram illustrating the user's possible actions in the Wiki section as well.
+- **Use Case Diagram:** All the user's possible actions in our Sudoku application.
 
-- **Project Plan:** Initial Trello Board can also be found in the Wiki section. 
+- **Project Plan:** Initial Trello Board reflecting our project goals and timeline.
+
+- **Testing Plan:** The plan to "play" through a game to test the backend functionality.
+
+- **Testing Results:** Scripts and log files of backend testing.
 
 ## Running the App
 
