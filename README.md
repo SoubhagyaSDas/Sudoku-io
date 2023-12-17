@@ -35,3 +35,16 @@ This Sudoku Web App is built using Flask. To run the application, ensure you hav
 
 ```bash
 pip install Flask
+
+After installing Flask, navigate to the sudoku-backend folder and run the following commands to start the Flask app:
+
+```bash
+cd sudoku-backend
+python server.py
+
+The frontend of our web app is built using npm. To run the frontend development server, navigate to the frontend folder and run the following commands:
+```bash
+cd frontend
+npm install  # Install dependencies (required only once)
+npm run dev   # Start the development server
+
