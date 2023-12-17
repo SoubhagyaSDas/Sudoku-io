@@ -97,31 +97,12 @@ def update(new_board: list, sudoku: Puzzle()):
     #Connects to puzzle storage doc
     puzzle_ref = db.collection('puzzles')
 
-    # Check if 'erase' is received
-    if 'erase' in str(new_board):
-        # Handle erase logic (set the corresponding cell to 0 in the database)
-        for i in range(len(new_board)):
-            for j in range(len(new_board[i])):
-                # Check if the cell is mutable (user-input), then set it to 0
-                if sudoku.grid[i][j].IsMutable():
-                    sudoku.grid[i][j].SetEntry(0)
-        # Save the updated board to the database
-        save_to_database(sudoku, sudoku)  # Update both puzzle and solvedPuzzle
-    else:
-        # Handle regular numeric values (update the corresponding cell in the database)
-        for i in range(len(new_board)):
-            for j in range(len(new_board[i])):
-                # Check if the cell is mutable (user-input), then update the value
-                if sudoku.grid[i][j].IsMutable():
-                    # Your existing logic to update the cell value based on new_board[i][j]
-                    sudoku.grid[i][j].SetEntry(new_board[i][j])
-
-        # Convert updated board to firestore format
-        firestore_board = {}
-        for i, row in enumerate(new_board, start=1):
-            firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
-        # Store the updated board to firestore
-        puzzle_ref.document(str(sudoku.GetBoardID())).update({'board': firestore_board})
+    # Convert updated board to firestore format
+    firestore_board = {}
+    for i, row in enumerate(new_board, start=1):
+        firestore_board[f'row{i}'] = {f'col{j}': value for j, value in enumerate(row, start=1)}
+    # Store the updated board to firestore
+    puzzle_ref.document(str(sudoku.GetBoardID())).update({'board': firestore_board})
 
 
 
