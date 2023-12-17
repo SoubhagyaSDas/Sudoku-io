@@ -37,6 +37,13 @@ Welcome to our project repository! This document outlines the individual contrib
 - Contributed to the integration of the grid selector with the board.
 - Conducted testing of API calls and database management.
 
+### Manali:
+- Focused on updating and enhancing UI components.
+- Implemented Bootstrap elements to ensure frontend responsiveness.
+- Updated frontend code for all controllers, improving user interface and interaction.
+- Collaborated with Soubhagya in refining the frontend aesthetics and functionality.
+- Added buttons for puzzle verification and interaction, enhancing user experience.
+
 ---
 
 Thank you for visiting our project repository. We hope you find our contributions and collaborative efforts as exciting as we do! For any queries or feedback, please feel free to reach out to us.
