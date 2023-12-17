@@ -16,9 +16,7 @@ Tested the representation.py file(All the backend code), for component and unit 
 Wrote backend-test-log.txt in the backend folder.
 
 Sadaat:
-Created the database
-Handled communication between backend and database.
-Handled communication between frontend and backend for: undo, undo until correct, ..
+
 
 Soubhagya:
 
