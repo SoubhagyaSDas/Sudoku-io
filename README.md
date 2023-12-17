@@ -28,7 +28,7 @@ Details about individual contributions can be found in the main branch of this r
   
 - **Storyboard:** You can find the storyboard illustrating the user experience in the Wiki section as well.
 
-- **Project Plan:** Our project plan, outlining milestones and timelines, is also available in the Wiki section.
+- **Project Plan:** Initial Trello Board can also be found in the wiki section. 
 ## Running the App
 
 This Sudoku Web App is built using Flask. To run the application, ensure you have Flask installed. You can install it using the following command:
