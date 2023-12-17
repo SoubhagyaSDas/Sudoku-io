@@ -90,10 +90,11 @@ def undoMove():
 @app.route('/api/undoUntilCorrect', methods =['GET'])
 @cross_origin()
 def UndoUntilCorrect():
-    # Get all the wrong made moves
-    movesToUndo = sudoku.UndoUntilCorrect()
     # Get the board
     board = convertGridToBoard([], sudoku.puzzle)
+    # Get all the wrong made moves
+    movesToUndo = sudoku.UndoUntilCorrect()
+    
     # If there are any wrong moves
     if movesToUndo:
         for i in range(len(movesToUndo)):
