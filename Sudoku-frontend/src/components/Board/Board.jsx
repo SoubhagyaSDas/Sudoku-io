@@ -3,15 +3,17 @@ import axios from 'axios'; //npm i axios
 import Cell from './Cell';
 import '../../App.css'; // Corrected import path for App.css
 
-const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
+const Board = ({selectedDifficulty, selectedBoard, hintRequested, setHintRequested, undoClicked, setUndoClicked, undoUntilCorrect, setUndoUntilCorrect}) => {
   // Store the board
-  const [board, setBoard] = useState(Array(9).fill(Array(9).fill('')));
+  const [board, setBoard] = useState(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
   const [selectedCell, setSelectedCell] = useState({ x: -1, y: -1 });
   // Store the solved board
-  const [solved, setSolved] = useState(Array(9).fill(Array(9).fill('')));
+  const [solved, setSolved] = useState(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
   const [hintFound, setHintFound] = useState(false); // State to track if a hint is found
 
   useEffect(() => {
+    setBoard(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
+    setSolved(Array(Number(selectedBoard)).fill(Array(Number(selectedBoard)).fill('')));
     const initializeBoardFromFile = async (filePath) => {
       try{
         //get information from json file
@@ -30,9 +32,9 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
       }
     }
     
-    const url = "http://127.0.0.1:5000/api/load_puzzle/" + selectedDifficulty;
+    const url = "http://127.0.0.1:5000/api/load_board?difficulty=" + selectedDifficulty + "&size=" + Number(selectedBoard);
     initializeBoardFromFile(url);
-  }, [selectedDifficulty]);
+  }, [selectedDifficulty, selectedBoard]);
 
   // Attempt to use backend GetHint. Not working yet
   // useEffect(() => {
@@ -76,7 +78,6 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
             setHintRequested(false);
             return;
           }
-
         }
       }
       // If all cell is fill request is set back to false
@@ -86,11 +87,56 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
     }
     // Set found back to false for the next hint
     setHintFound(false);
-
   }, [hintRequested, hintFound, setHintRequested]);
   
+  useEffect(() => {
+    const undo = async ()=>{
+      // If the undo btn is clicked
+      if(undoClicked){
+        //Fetch the func undoing the move
+        try{
+          const response = await axios.get('http://127.0.0.1:5000/api/undo/');
+          const data = response.data; //store jsondata
 
+          //filter so 0 values are empty cells
+          const filteredBoard = data.puzzle.map(row =>
+            row.map(cell => (cell !== 0 ? cell : ''))
+          )
+          //add the user board as well as the solved one
+          setBoard(filteredBoard);
+        } catch (error){
+          console.error("Error fetching", error);
+        }
+        setUndoClicked(false); //Set the undobutton clicked back to false
+    }
+    };
+    undo();
+  }, [undoClicked, setUndoClicked]);
 
+    useEffect(() => {
+    const undoUntil = async ()=>{
+      // If the undo btn is clicked
+      if(undoUntilCorrect){
+        //Fetch the func undoing the move
+        try{
+          const response = await axios.get('http://127.0.0.1:5000/api/undoUntilCorrect/');
+          const data = response.data; //store jsondata
+
+          //filter so 0 values are empty cells
+          const filteredBoard = data.puzzle.map(row =>
+            row.map(cell => (cell !== 0 ? cell : ''))
+          )
+          //add the user board as well as the solved one
+          setBoard(filteredBoard);
+        } catch (error){
+          console.error("Error fetching", error);
+        }
+        setUndoUntilCorrect(false); //Set the undobutton clicked back to false
+    }
+    };
+    undoUntil();
+  }, [undoUntilCorrect, setUndoUntilCorrect]);
+  
   const handleCellChange = (x, y, value) => {
     setBoard(prevBoard => {
       const newBoard = prevBoard.map((row, rowIndex) =>
@@ -100,16 +146,9 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
     );
     //Convert the new changed board in a 2d grid
     const backBoard = Array.from(newBoard.values()).map((row) => row.map(Number));
-    // Compare inputted cell to correct cell in solved Board
-    const isCorrect = JSON.stringify(backBoard[x][y]) === JSON.stringify(solved[x][y]);
-    // If the cell input is correct update database
-    if(isCorrect){
-      axios.post('http://127.0.0.1:5000/api/update', {puzzle: backBoard})
-      return newBoard;
-    }
-    else{
-      return prevBoard;
-    }
+
+    axios.post('http://127.0.0.1:5000/api/update/', {puzzle: backBoard, new: backBoard[x][y], row: x, col: y})
+    return newBoard;
   });
   };
 
@@ -124,15 +163,21 @@ const Board = ({hintRequested, setHintRequested, selectedDifficulty}) => {
   const isSameRowOrColumnOrBox = (x, y) => {
     return (
       selectedCell.x === x || selectedCell.y === y ||
-      (Math.floor(selectedCell.x / 3) === Math.floor(x / 3) &&
-       Math.floor(selectedCell.y / 3) === Math.floor(y / 3))
+      (Math.floor(selectedCell.x / Math.sqrt(Number(selectedBoard))) === Math.floor(x / Math.sqrt(Number(selectedBoard))) &&
+       Math.floor(selectedCell.y / Math.sqrt(Number(selectedBoard))) === Math.floor(y / Math.sqrt(Number(selectedBoard))))
     );
+  };
+
+  const handleNumberSelect = (number) => {
+    if (selectedCell.x !== -1 && selectedCell.y !== -1) {
+      handleCellChange(selectedCell.x, selectedCell.y, number);
+    }
   };
 
   return (
     <div className="board">
       {board.map((row, x) => (
-        <div key={x} className={`board-row ${x % 3 === 0 && x !== 0 ? 'thick-top' : ''}`}>
+        <div key={x} className={`board-row ${x % Math.sqrt(Number(selectedBoard)) === 0 && x !== 0 ? 'thick-top' : ''}`}>
           {row.map((value, y) => (
             <Cell 
               key={`${x}-${y}`}
